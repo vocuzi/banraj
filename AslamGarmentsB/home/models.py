@@ -2,6 +2,16 @@ from django.db import models
 from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.postgres.fields import ArrayField
+
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
 class location(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
@@ -12,6 +22,9 @@ class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     pic = models.ImageField(upload_to='profile_pic/', null=True, blank=True)
     address = models.OneToOneField("home.Address", on_delete=models.CASCADE, null=True, blank=True)
+    
+    def __str__(self):
+        return self.user.username
 
 class Address(models.Model):
     doorNo = models.CharField(max_length=200)
@@ -99,3 +112,14 @@ class Order(models.Model):
         if self.status == 'delivered':
             return True
         return False
+
+class Category(models.Model):
+    name = models.CharField(max_length=200)
+    products = models.ManyToManyField(Product, blank=True)
+    image = models.ImageField(upload_to='category_pic/', null=True, blank=True)
+    
+    def __str__(self):
+        return self.name
+    @property
+    def total_products(self)->int:
+        return self.products.count()
