@@ -1,12 +1,14 @@
-from . import models,serializers
+from . import models,serializers,filters
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
-from rest_framework.decorators import api_view,permission_classes,authentication_classes
+from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework.decorators import api_view,permission_classes,authentication_classes
+from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser
     
 @api_view(['POST']) 
 @permission_classes([AllowAny])
@@ -46,7 +48,7 @@ class CustomAuthToken(ObtainAuthToken):
             'email': user.email
         })
 
-@api_view(['POST'])
+@api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def logout(request):
     request.user.auth_token.delete()
@@ -57,20 +59,52 @@ def logout(request):
     return Response(cont)
 
 @api_view(['GET'])
-@permission_classes([AllowAny])
-def getProducts(request):
-    products = models.Product.objects.all()
-    serializer = serializers.ProductSerializer(products, many=True)
-    return Response(serializer.data)
+@permission_classes([IsAuthenticated])
+def checkAuth(request):
+    return Response({'message':'Authenticated'}) 
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def getCategories(request):
     categories = models.Category.objects.all()
     serializer = serializers.CategorySerializer(categories, many=True)
-    return Response(serializer.data) 
+    cont = {
+        'message':"Success",
+        'data':serializer.data,
+    }
+    return Response(cont) 
+
+class ProductListView(generics.ListAPIView):
+    queryset = models.Product.objects.all()
+    serializer_class = serializers.ProductSerializer
+    filter_backends = [DjangoFilterBackend,OrderingFilter]
+    filterset_class = filters.ProductFilter
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.query_params.get('search', None)
+        if query:
+            queryset = queryset.filter(name__icontains=query)
+        return queryset
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def checkAuth(request):
-    return Response({'message':'Authenticated'})
+@permission_classes([AllowAny])
+def getcolors(request):
+    colors = models.Color.objects.all()
+    serializer = serializers.ColorSerializer(colors, many=True)
+    cont = {
+        'message':"Success",
+        'data':serializer.data,
+    }
+    return Response(cont)
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def makeSubscription(request):  
+    if request.method == 'POST':
+        serializer = serializers.SubscriptionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message':'Subscribed Successfully'})
+        return Response(serializer.errors)
+    

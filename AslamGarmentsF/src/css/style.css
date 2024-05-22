@@ -33,21 +33,13 @@ body {
   border-bottom-right-radius: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   overflow: hidden;
-  background-image:
-    radial-gradient(#00975d 1px, transparent 1px),
-    radial-gradient(#00975d 1.2px, transparent 1px),
-    radial-gradient(#00975d56 2px, transparent 2px),
-    radial-gradient(#00975d65 2.4px, transparent 2px),
-    radial-gradient(#00975d27 3px, transparent 3px),
-    radial-gradient(#00975d0c 3.6px, transparent 3px);
-  background-size: 14px 14px;
-  background-position: 0 0, 7px 7px;
+  position: relative;
   background-color: #3b5d50;
-  animation: bgshake 60s infinite cubic-bezier(0.87, -0.99, 0.35, 2);
+  animation: bgshake 30s infinite cubic-bezier(0.87, -0.99, 0.35, 2);
   transition: all 0.5s;
 }
 
-.header .navbar {
+.navbar {
   position: fixed;
   top: 0;
   left: 0;
@@ -56,22 +48,22 @@ body {
   display: flex;
   justify-content: end;
   align-items: center;
-  height: 10vh;
+  height: 8vh;
   z-index: 999;
   background-color: #3b5d50d4;
-  transition: all 0.5s;
+  transition: all .5s;
   animation: nav 0.5s ease-in-out;
 }
 
-.header .navbar h1 {
+.navbar h1 {
   cursor: pointer;
 }
 
-.header .navbar h1 b {
+.navbar h1 b {
   color: #033320;
 }
 
-.header .navbar ul {
+.navbar ul {
   list-style: none;
   display: flex;
   align-items: center;
@@ -79,32 +71,32 @@ body {
   margin-right: 3%;
 }
 
-.header .navbar ul li {
+.navbar ul li {
   display: inline-block;
   /* border: 1px solid black; */
   position: relative;
-  margin:  10px;
+  margin: 10px;
   margin-top: 24px;
   text-align: center;
 }
 
-.header .navbar ul li a {
+.navbar ul li a {
   display: block;
   text-decoration: none;
-  color: #ffffff67;
+  color: #ffffff84;
   margin: 10px;
 
 }
 
-.header .navbar ul li span{
-  color: #ffffff67;
+.navbar ul li span {
+  color: #ffffff84;
   padding: 0 15px;
-  font-size: 28px;
+  font-size: 1.7rem;
   cursor: pointer;
   position: relative;
 }
 
-.header .navbar ul li span::before{
+.navbar ul li span::before {
   opacity: 0;
   content: attr(data-tooltip);
   font-size: .45rem;
@@ -122,20 +114,20 @@ body {
   transition: all 0.50ms ease;
 }
 
-.header .navbar ul li span:hover::before{
+.navbar ul li span:hover::before {
   transition-delay: 0.9s;
   opacity: 1;
 }
 
-.header .navbar ul li a:active {
+.navbar ul li a:active {
   scale: 0.9;
 }
 
-.header .navbar ul li span:active {
+.navbar ul li span:active {
   scale: 0.9;
 }
 
-.header .navbar ul li a::after {
+.navbar ul li a::after {
   content: "";
   display: block;
   width: 0;
@@ -147,7 +139,7 @@ body {
   transition: all 0.3s;
 }
 
-.header .navbar ul li span::after {
+.navbar ul li span::after {
   content: "";
   display: block;
   width: 0;
@@ -158,35 +150,35 @@ body {
   transition: all 0.3s;
 }
 
-.header .navbar ul li a:hover::after {
+.navbar ul li a:hover::after {
   content: "";
   display: block;
   border: 2px solid #f9be29;
   width: 70%;
 }
 
-.header .navbar ul li span:hover::after {
+.navbar ul li span:hover::after {
   content: "";
   display: block;
   border: 2px solid #f9be29;
   width: 70%;
 }
 
-.header .navbar ul li a:hover {
+.navbar ul li a:hover {
   color: white;
   transition: all 0.3s;
 }
 
-.header .navbar ul li span:hover {
+.navbar ul li span:hover {
   color: white;
   transition: all 0.3s;
 }
 
-.header .navbar ul li .active {
+.navbar ul li .active {
   color: white;
 }
 
-.header .navbar ul li .active::after {
+.navbar ul li .active::after {
   content: "";
   display: block;
   width: 70%;
@@ -194,12 +186,12 @@ body {
   border-radius: 2rem;
 }
 
-.header .navbar h1 {
+.navbar h1 {
   position: absolute;
   left: 4%;
 }
 
-.header .navbar ul li button{
+.navbar ul li button {
   font-weight: 600;
   background-color: #f9be29db;
   color: #000000;
@@ -213,7 +205,7 @@ body {
   margin-bottom: 5px;
 }
 
-.header .navbar ul li button:hover {
+.navbar ul li button:hover {
   background-color: #f9bf29;
   border: 1px solid #000000;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
@@ -221,7 +213,7 @@ body {
   scale: 1.05;
 }
 
-.header .navbar ul libutton:active {
+.navbar ul libutton:active {
   background-color: #f9bf29;
   border: 1px solid #000000;
   border-radius: 1.2rem;
@@ -239,18 +231,20 @@ body {
 
 .header .content .lfttxt {
   display: inline-block;
+  position: absolute;
+  left: 10%;
   width: 45%;
 }
 
 .header .content .lfttxt h1 {
   color: #eaeaea;
-  font-size: 3.8em;
+  font-size: clamp(2rem, 5vw, 3.8rem);
 }
 
 .header .content .lfttxt p {
   color: rgb(244, 244, 244);
   text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
-  font-size: 1.5rem;
+  font-size: clamp(0.8rem, 3vw, 1.5rem);
 }
 
 .header .content .lfttxt button {
@@ -299,6 +293,9 @@ body {
 
 .header .content img {
   aspect-ratio: 73/129;
+  position: absolute;
+  bottom: 0;
+  right: 10%;
   display: inline-block;
   width: 20%;
   filter: drop-shadow(10px 5px 10px rgba(0, 0, 0, 0.3));
@@ -311,29 +308,70 @@ body {
 }
 
 
+.header .content .searchbar {
+  position: absolute;
+  top: 60%;
+  right: 10%;
+  background-color: #fff;
+  display: flex;
+  padding: .1% 1%;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 5rem;
+}
+
+.header .content .searchbar input {
+  width: 70%;
+  padding: 5px 10px;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+  border-right: 1px solid black;
+}
+
+.header .content .searchbar .material-symbols-outlined {
+  padding: 0 0 0 6%;
+}
 
 .category {
-  margin: auto 3% ;
+  margin: auto 2%;
   padding-top: 5%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: block;
+  justify-content: space-between;
+  position: relative;
+  align-items: safe;
   width: 100%;
   flex-wrap: wrap;
   margin-bottom: 6.5%;
 }
 
+.category h1 {
+  width: 100%;
+  text-align: center;
+  color: #28322e;
+  font-size: 2.5em;
+  position: absolute;
+  top: -5%;
+  text-decoration: underline;
+}
+
 .category .txt {
-  display: inline-block;
-  width: 22%;
+  display: inline-flex;
+  flex-wrap: wrap;
+  position: absolute;
+  top: 25%;
+  left: 4%;
+  width: 22vw;
   margin: 20px;
-  padding: 1%;
+  padding: 1vw;
   transition: all 0.5s;
 }
 
 .category .txt h1 {
+  text-align: left;
   color: #28322e;
   font-size: 2.5em;
+  position: relative;
 }
 
 .category .txt p {
@@ -367,35 +405,123 @@ body {
   scale: .9;
 }
 
-.category .card {
-  margin: 3% auto;
-  width: 18%;
-  height: 60vh;
+.category .cont {
+  display: inline-flex;
+  margin-left: 30%;
+  width: 68vw;
+  justify-content: space-evenly;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.category .cont .card {
+  width: 30vh;
+  height: 55vh;
+  margin: 1%;
   display: flex;
   justify-content: center;
+  position: relative;
   align-items: end;
   flex-wrap: wrap;
   text-align: center;
   border-radius: 1.5rem;
+  padding-bottom: 4%;
+  transition: all 0.3s ease-in-out;
 }
 
-.category .card img {
-  width: 80%;
+.category .cont .card::after{
+  content: '';
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 0%;
+  border-radius: 1.5rem;
+  background-color: #00000062;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%);
+  z-index: -1;
+  transition: all 0.3s ease-in-out;
+}
+
+.category .cont .card:hover{
+  margin-bottom: 0;
+}
+
+.category .cont .card:hover::after{
+  height: 70%;
+}
+
+.category .cont .card:hover img{
+  scale: 1.1;
+}
+
+.category .cont .card .cross {
+  content: '';
+  position: absolute;
+  bottom: -5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  padding: 5%;
+  border-radius: 50%;
+  font-weight: 200;
+  font-size: 3.5rem;
+  background-color: #000000;
+  color: #fff;
+  scale: 0;
+  opacity: 0.8;
+  transition: all 0.5s ease;
+}
+
+.category .cont .card:hover .cross {
+  opacity: 1;
+  scale: 1;
+}
+
+.category .cont .card .cross img{
+  width: 100%;
+  filter: invert(1);
+}
+
+.category .cont .card img {
+  width: 25vh;
   aspect-ratio: 3/5;
   padding: 5%;
+  border-radius: 1.5rem;
   z-index: 99;
+  margin: 3%;
+  transition: all 0.3s ease;
 }
 
-.category .card h3 {
+.category .cont .card h3 {
+  width: 100%;
   color: #28322e;
   font-size: 1.5rem;
-  margin: 5px;
 }
 
-.category .card strong {
+.category .cont .card p {
+  width: 100%;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: black;
+  text-decoration: line-through;
+}
+
+.category .cont .card strong {
+  width: 100%;
   color: #0d340f;
   font-size: 1.3rem;
-  margin: 5px;
+  font-weight: 700;
+}
+
+.w20 {
+  width: 10px;
+  border: 1px solid black;
+  margin: 5%;
 }
 
 .aboutUS {
@@ -435,13 +561,13 @@ body {
   transition: all .5s;
 }
 
-.aboutUS .lftimg:hover::before{
-  width: 100%;
-  height: 100%;
-  opacity: .5;
+.aboutUS .lftimg:hover::before {
+  width: 30%;
+  height: 30%;
+  opacity: .8;
   background-image: radial-gradient(#005836 2px, transparent 2px), radial-gradient(#00bc74 2px, transparent 2px);
   background-size: 14px 14px;
-  background-position: 0 0, 7px 7px; 
+  background-position: 0 0, 7px 7px;
   transition: all .5s;
   filter: drop-shadow(0 0 10px #ffffff);
 }
@@ -456,6 +582,20 @@ body {
 .aboutUS .txt h1 {
   color: #28322e;
   font-size: 2.5em;
+  text-decoration: underline;
+  position: relative;
+}
+
+.aboutUS .txt h1::before {
+  content: " ";
+  display: inline-block;
+  position: absolute;
+  top: 10px;
+  left: -10px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #00000038;
 }
 
 .aboutUS .txt p {
@@ -501,17 +641,18 @@ body {
   padding: 2%;
   font-size: 1.2rem;
   text-indent: 1rem;
+  position: relative;
 }
 
 .aboutUS p::before {
   content: " ";
   display: inline-block;
   position: absolute;
-  width: 70px;
-  height: 70px;
+  top: 20px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background-color: #00000038;
-
+  /* background-color: #00000038; */
 }
 
 footer {
@@ -711,20 +852,20 @@ footer div button:active {
   position: relative;
 }
 
-.service .card:hover{
+.service .card:hover {
   background-color: #e7f3ee;
   border-radius: 10px;
   transition: all 0.2s;
 }
 
-.service .card span{
+.service .card span {
   position: relative;
   font-size: 3.2rem;
   filter: drop-shadow(1px 2px 10px rgba(0, 0, 0, 0.296));
   transition: all 0.5s cubic-bezier(0.5, -1, 0.5, 3);
 }
 
-.service .card::after{
+.service .card::after {
   width: 90%;
   height: 80%;
   content: '';
@@ -738,7 +879,7 @@ footer div button:active {
   transition: all 0.3s;
 }
 
-.service .card::before{
+.service .card::before {
   width: 100%;
   height: 100%;
   content: '';
@@ -752,15 +893,15 @@ footer div button:active {
   transition: all 1s;
 }
 
-.service .card:hover::after{
+.service .card:hover::after {
   box-shadow: 0 10px 80px rgb(0, 0, 0);
 }
 
-.service .card:hover::before{
+.service .card:hover::before {
   box-shadow: 0 10px 30px rgba(255, 255, 255, 0.399);
 }
 
-.service .card span::after{
+.service .card span::after {
   content: " ";
   display: block;
   position: absolute;
@@ -774,7 +915,7 @@ footer div button:active {
   z-index: -1;
 }
 
-.service .card span::before{
+.service .card span::before {
   content: " ";
   display: block;
   position: absolute;
@@ -788,14 +929,14 @@ footer div button:active {
   z-index: -1;
 }
 
-.service .card:hover span::before{
+.service .card:hover span::before {
   scale: 2;
   top: 0;
   right: 0;
   transition: all 0.8s cubic-bezier(0.5, -2, 0.5, 2);
 }
 
-.service .card:hover span::after{
+.service .card:hover span::after {
   scale: 1.5;
   bottom: 0;
   left: 0;
@@ -803,7 +944,7 @@ footer div button:active {
   transition: all 0.6s cubic-bezier(0.5, -1, 0.5, 3);
 }
 
-.service .card:hover span{
+.service .card:hover span {
   scale: 1.1;
 }
 

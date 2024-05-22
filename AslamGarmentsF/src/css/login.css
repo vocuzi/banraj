@@ -1,5 +1,5 @@
-:root{
-    --bgimg : url(../images/login-image.avif);
+:root {
+    --bgimg: url(../images/login-image-green.png);
 }
 
 .bdy {
@@ -19,7 +19,8 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    background-color: #ffffffe3;
+    background-color: #ffffff32;
+    backdrop-filter: blur(10px);
     border-radius: 1rem;
     z-index: 0;
     background-image: linear-gradient(-45deg, #ffffff7a 0%, #aac1e37a 80%, #b7cae67a 100%);
@@ -77,16 +78,18 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+    perspective: 1000px;
 }
 
 .login h1 {
     font-size: 2.5rem;
+    transition: all 0.2s ease-in-out;
 }
 
-.login h4{
+.login p {
     font-size: 1.1rem;
     font-weight: 500;
+    transition: all 0.2s ease-in-out;
 }
 
 .login .card {
@@ -96,16 +99,37 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items:safe;
+    align-items: safe;
     border-radius: 50px;
-    background: linear-gradient(145deg, #e6e6e6, #ffffff);
-    box-shadow: 20px 20px 60px #d9d9d9,
-        -20px -20px 60px #ffffff;
+    /* background: linear-gradient(145deg, #e6e6e6, #ffffff); */
+    /* box-shadow: 20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff; */
+    backdrop-filter: brightness(1) ;
     margin-bottom: 5%;
-    transition: all 1s; 
+    transition: all 1s ease-in-out;
+    animation: 1s twist ease-in-out;
 }
 
-.login .card .ina{
+@keyframes twist-back {
+    0% {
+        transform: rotateY(180deg);
+    }
+
+    100% {
+        transform: rotateY(0deg);
+    }
+}
+
+@keyframes twist {
+    0% {
+        transform: rotateY(180deg);
+    }
+
+    100% {
+        transform: rotateY(0deg);
+    }
+}
+
+.login .card .ina {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -114,9 +138,11 @@
     position: relative;
     height: 40px;
     margin: 2%;
+    transition: all 0.2s ease-in-out;
+    animation: 1s twist ease-in-out;
 }
 
-.login .card .ina label{
+.login .card .ina label {
     position: absolute;
     font-size: 1.4rem;
     width: 60%;
@@ -124,9 +150,10 @@
     top: 5%;
     left: 22%;
     transition: all 0.2s ease-in-out;
+    animation: 1s twist ease-in-out;
 }
 
-.login .card .ina input{
+.login .card .ina input {
     position: absolute;
     width: 60%;
     line-height: 36px;
@@ -135,27 +162,28 @@
     border-bottom: 2px solid #242424;
     bottom: 0;
     transition: all 0.2s ease-in-out;
+    animation: 1s twist ease-in-out;
     text-indent: 5%;
     font-size: 1.2rem;
 }
 
-.login .card .ina input:focus{
+.login .card .ina input:focus {
     outline: none;
 }
 
-.login .card .ina input:focus ~ label{
+.login .card .ina input:focus~label {
     scale: 0.7;
     left: 12%;
     top: -28px;
 }
 
-.login .card .ina input:valid ~ label{
+.login .card .ina input:valid~label {
     scale: 0.7;
     left: 12%;
     top: -28px;
 }
 
-.login .card button{
+.login .card button {
     width: 60%;
     height: 40px;
     border: none;
@@ -165,28 +193,29 @@
     border-radius: 20px;
     margin: 4%;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.2s ease-in-out;
+    animation: 1s twist ease-in-out;
 }
 
-.login .card button:hover{
+.login .card button:hover {
     background: #000;
 }
 
-.login p{
+.login p {
     font-size: 1rem;
 }
 
-.login p a{
+.login p a {
     color: #343434c0;
     font-weight: bolder;
     transition: all 0.3s;
 }
 
-.login p a:hover{
+.login p a:hover {
     color: #000;
 }
 
-.error{
+.error {
     opacity: 0;
     color: red;
     font-size: 1.2rem;
@@ -194,7 +223,7 @@
     transition: all 0.2s ease-in-out;
 }
 
-.nameError{
+.nameError {
     opacity: 0;
     color: red;
     font-size: 1.2rem;
@@ -203,7 +232,7 @@
     transition: all 0.2s ease-in-out;
 }
 
-.mailError{
+.mailError {
     opacity: 0;
     color: red;
     font-size: 1.2rem;

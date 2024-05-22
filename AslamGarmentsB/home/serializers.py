@@ -27,14 +27,26 @@ class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.image
         fields = ['image', 'is_main']
-            
-class ProductSerializer(serializers.ModelSerializer):
-    images = ImageSerializer(many=True, read_only=True)
+    
+class ColorSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Product
-        fields = ['name', 'discription', 'color', 'stock', 'marketPrice', 'sellingPrice', 'images']
-
+        model = models.Color
+        fields = ["id",'color']
+        
 class CategorySerializer(serializers.ModelSerializer): 
     class Meta:
         model = models.Category
-        fields = ['name', 'image','total_products']
+        fields = ['id','name', 'image','total_products']
+        
+class ProductSerializer(serializers.ModelSerializer):
+    images = ImageSerializer(many=True, read_only=True)
+    colors = ColorSerializer(source='color_set', many=True, read_only=True)  # Add this line
+    category = CategorySerializer(source='category_set', many=True, read_only=True)  # Add this line
+    class Meta:
+        model = models.Product
+        fields = ['id','name', 'discription', 'stock', 'marketPrice', 'sellingPrice', 'images','colors','category']
+        
+class SubscriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Subscription
+        fields = "__all__"

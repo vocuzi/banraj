@@ -6,7 +6,7 @@ import About from './pages/about';
 import Service from './pages/service';
 import { BaseProvider } from './BaseContext';
 import Login from './pages/login';
-import Signup from './pages/signup';
+import UserProfile from './pages/profile';
 
 function App() {
   return (
@@ -15,10 +15,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/about" element={<About />} />
           <Route path="/service" element={<Service />} />
+          <Route path="/profile" element={<UserProfile />} />
         </Routes>
       </BrowserRouter>
     </BaseProvider>

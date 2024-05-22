@@ -1,35 +1,43 @@
-import React, { useRef } from "react";
+import React, { useRef,useState,useEffect,useContext } from "react";
 import '../css/style.css';
 import '../css/google.css';
 import '../css/decoration.css';
 import '../css/external.css';
 import model from '../images/model.png';
 import cross from '../images/cross.svg';
-import smallboy from '../images/small-boy.png';
 import Footer from "../components/footer";
 import Navbar from "../components/navbar";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { BaseContext } from "../BaseContext";
 
 const Service = () => {
     const navigate = useNavigate();
     const catog = useRef(null);
-    const categories = [
-        {
-            id: 1,
-            name: 'Kids Wear',
-            img: smallboy
-        },
-        {
-            id: 2,
-            name: 'Mens Wear',
-            img: smallboy
-        },
-        {
-            id: 3,
-            name: 'Womens Wear',
-            img: smallboy
+    const [categories, setCategories] = useState([])
+    const { BaseUrl } = useContext(BaseContext);
+
+    useEffect(() => {
+        console.log(BaseUrl)
+        const getCat = async () => {
+            try {
+                const response = await axios.get(`${BaseUrl}getCat/`)
+
+                if (response.data['message'] === "Success") {
+                    setCategories(response.data['data'])
+                    console.log(response.data['data'])
+                }
+            }
+            catch (error) {
+                console.error(error);
+            }
         }
-    ]
+        getCat();
+    }, [BaseUrl])
+
+    const clickCat=(catogID)=>{
+        navigate('/shop/',{state:{categoryID:catogID}})
+    }
 
     return (
         <body>
@@ -69,7 +77,7 @@ const Service = () => {
                 </div>
             </div>
             <div className="category" ref={catog}>
-                <div className="txt">
+            <div className="txt" >
                     <h1>Our Products</h1>
                     <p>
                         We offer a wide range of garments for all age ranged people. Our all
@@ -77,20 +85,19 @@ const Service = () => {
                     </p>
                     <button onClick={() => catog.current.scrollIntoView({ behavior: "smooth" })}>Explore</button>
                 </div>
+                <div className="cont">
                 {
-                    categories.map((category) => (
-                        <div key={category.id} className="card">
-                            <Link to="/" className="product-item">
-                                <img src={category.img} className="img-fluid product-thumbnail" alt={category.name} />
-                                <h3 className="product-title">{category.name}</h3>
-
-                                <span className="icon-cross">
-                                    <img src={cross} className="img-fluid" alt="Cross" />
-                                </span>
-                            </Link>
-                        </div>
-                    ))
-                }
+                        categories.map((category) => (
+                            <div key={category.id} className="card " onClick={()=>clickCat(category.id)}>
+                                    <img src={`${BaseUrl.slice(0, -1)}${category.image}`} className=" product-thumbnail" alt={category.name} />
+                                    <h3 className="product-title">{category.name}</h3>
+                                    <div className="cross">
+                                        <img src={cross} alt="Cross" />
+                                    </div>
+                            </div>
+                        ))
+                    }
+                </div>
 
             </div>
             <Footer />

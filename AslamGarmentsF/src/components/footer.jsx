@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import '../css/style.css';
 import '../css/google.css';
 import '../css/decoration.css';
@@ -8,6 +8,9 @@ import whatsapp from '../images/whatsapp.png';
 import facebook from '../images/facebook.png';
 import twitter from '../images/twitter.png';
 import instagram from '../images/instagram.png';
+import axios from "axios";
+import { BaseContext } from "../BaseContext";
+
 
 const Footer = () => {
 
@@ -17,6 +20,33 @@ const Footer = () => {
         { id: 3, icon: twitter },
         { id: 4, icon: instagram }
     ]
+
+    const [error, setError] = useState('')
+    const [isError, setIsError] = useState(true)
+
+    const { BaseUrl } = useContext(BaseContext);
+
+    const Subscribe = async () => {
+        const email = document.getElementById("email").value;
+
+        try {
+            const response = await axios.post(`${BaseUrl}subscribe/`, {
+                email: email
+            })
+            if (response.data['message']) {
+                setIsError(false)
+                setError(response.data['message']);
+            }
+            else if (response.data['email']) {
+                setIsError(true)
+                setError(response.data['email']);
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <footer>
             <div>
@@ -48,8 +78,15 @@ const Footer = () => {
             </div>
             <div>
                 <h1>Subscribe</h1>
-                <input type="email" placeholder="Enter your email" />
-                <button>Subscribe</button>
+                <input type="email" placeholder="Enter your email" id="email"/>
+                <button onClick={Subscribe}>Subscribe</button>
+                {
+                    isError ? (
+                        <p style={{ fontSize: '1.2rem', textAlign: "center", color: 'red' }}>{error}</p>
+                    ) : (
+                        <p style={{ fontSize: '1.2rem', textAlign: "center", color: 'lightgreen' }}>{error}</p>
+                    )
+                }
             </div>
             <div className="cr">
                 <hr />

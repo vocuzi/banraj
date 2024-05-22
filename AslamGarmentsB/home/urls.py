@@ -8,9 +8,11 @@ urlpatterns = [
     path('login/', views.CustomAuthToken.as_view() , name='login'),
     path('signup/', views.register, name='register'),
     path('logout/', views.logout, name='logout'),
-    path('getPro/', views.getProducts, name='getProducts'),
     path('getCat/', views.getCategories, name='getCategories'),
     path('checkAuth/', views.checkAuth, name='checkAuth'),
+    path("products/",views.ProductListView.as_view(),name="products"), 
+    path("subscribe/",views.makeSubscription,name="Make Subscription"),
+    path('getcolor/',views.getcolors,name='Get Colors'),
 ] 
 
 if settings.DEBUG:

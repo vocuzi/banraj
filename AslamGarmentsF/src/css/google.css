@@ -67,6 +67,7 @@
 }
 
 .material-symbols-outlined {
+     transition: all 0.5s ease;
   font-variation-settings:
   'FILL' 0,
   'wght' 300,

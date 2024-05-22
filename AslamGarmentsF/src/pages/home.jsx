@@ -1,23 +1,24 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useContext, useState } from "react";
 import '../css/style.css';
 import '../css/google.css';
 import '../css/decoration.css';
 import '../css/external.css';
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import model from '../images/model.png';
 import cross from '../images/cross.svg';
-import smallboy from '../images/small-boy.png';
 import aboutUS from '../images/FinishingAreanew1.jpg';
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
+import axios from "axios";
+import { BaseContext } from "../BaseContext";
 
 const Home = () => {
 
     const navigate = useNavigate();
-
     const catog = useRef(null);
-
     const location = useLocation();
+    const { BaseUrl } = useContext(BaseContext);
+    const [categories, setCategories] = useState([])
 
     useEffect(() => {
         const hash = location.hash;
@@ -26,28 +27,34 @@ const Home = () => {
         }
     }, [location]);
 
-    const categories = [
-        {
-            id: 1,
-            name: 'Kids Wear',
-            img: smallboy
-        },
-        {
-            id: 2,
-            name: 'Mens Wear',
-            img: smallboy
-        },
-        {
-            id: 3,
-            name: 'Womens Wear',
-            img: smallboy
+    useEffect(() => {
+        console.log(BaseUrl)
+        const getCat = async () => {
+            try {
+                const response = await axios.get(`${BaseUrl}getCat/`)
+
+                if (response.data['message'] === "Success") {
+                    setCategories(response.data['data'])
+                    console.log(response.data['data'])
+                }
+            }
+            catch (error) {
+                console.error(error);
+            }
         }
-    ]
+        getCat();
+    }, [BaseUrl])
+
+    const clickCat=(catogID)=>{
+        navigate('/shop/',{state:{categoryID:catogID}})
+    }
 
     return (
         <body>
             <div className="header">
+
                 <Navbar page={"home"} />
+
                 <div className="content">
                     <div className="lfttxt">
                         <h1 className="saira-condensed-bold">Aslam Garments</h1>
@@ -66,8 +73,9 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className="category" ref={catog}>
-                <div className="txt">
+            <div className="category " ref={catog} style={{marginTop:"5%"}}>
+                <h1>Categories</h1>
+                <div className="txt ">
                     <h1>Our Products</h1>
                     <p>
                         We offer a wide range of garments for all age ranged people. Our all
@@ -75,21 +83,19 @@ const Home = () => {
                     </p>
                     <button onClick={() => catog.current.scrollIntoView({ behavior: "smooth" })}>Explore</button>
                 </div>
-                {
-                    categories.map((category) => (
-                        <div key={category.id} className="card">
-                            <Link to="/" className="product-item">
-                                <img src={category.img} className="img-fluid product-thumbnail" alt={category.name} />
-                                <h3 className="product-title">{category.name}</h3>
-
-                                <span className="icon-cross">
-                                    <img src={cross} className="img-fluid" alt="Cross" />
-                                </span>
-                            </Link>
-                        </div>
-                    ))
-                }
-
+                <div className="cont ">
+                    {
+                        categories.map((category) => (
+                            <div key={category.id} className="card " onClick={()=>clickCat(category.id)}>
+                                    <img src={`${BaseUrl.slice(0, -1)}${category.image}`} alt={category.name} />
+                                    <h3>{category.name}</h3>
+                                    <div className="cross">
+                                        <img src={cross} alt="Cross" />
+                                    </div>
+                            </div>
+                        ))
+                    }
+                </div>
             </div>
 
             <div className="aboutUS">
