@@ -98,6 +98,17 @@ def getcolors(request):
     }
     return Response(cont)
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def getsizes(request):
+    sizes = models.Size.objects.all()
+    serializer = serializers.SizeSerializer(sizes, many=True)
+    cont = {
+        'message':"Success",
+        'data':serializer.data,
+    }
+    return Response(cont)
+
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def makeSubscription(request):  
@@ -107,4 +118,24 @@ def makeSubscription(request):
             serializer.save()
             return Response({'message':'Subscribed Successfully'})
         return Response(serializer.errors)
-    
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def getProduct(request,pid):
+    product = models.Product.objects.get(id=pid)
+    product_serial = serializers.ProductSerializer(product)
+    product_variant = models.ProductVariant.objects.filter(product=product)
+    variant_exists = models.ProductVariant.objects.filter(product=product).exists()
+    if not variant_exists:
+        cont = {
+            "variant":False,
+            "product":product_serial.data
+        }
+        return Response(cont)
+        
+    variant_serial = serializers.ProductVariantSerializer(product_variant,many=True)
+    cont = {
+            "variant":True,
+            "variants":variant_serial.data
+        }
+    return Response(cont)

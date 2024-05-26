@@ -152,6 +152,56 @@
     opacity: 0;
 }
 
+/*  */
+
+.products .filterside .options label input[type="checkbox"] {
+    display: none;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.products .filterside .options label input[type="checkbox"]+p {
+    padding-left: 15%;
+    font-size: 1.1rem;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.products .filterside .options label input[type="checkbox"]+p::before {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(20%, -50%);
+    background-color: transparent;
+    border: 2px solid black;
+    content: '';
+    width: 20px;
+    height: 20px;
+    border-radius: 10%;
+}
+
+.products .filterside .options label input[type="checkbox"]:checked+p::after {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(58%, -50%);
+    background-color: rgb(41, 82, 105);
+    content: '✔';
+    font-size: 10px;
+    text-align: center;
+    color: white;
+    width: 15px;
+    height: 15px;
+    border-radius: 10%;
+    opacity: 1;
+    transition: all 0.5s;
+}
+
+.products .filterside .options label input[type="checkbox"]:not(:checked)+p::after {
+    opacity: 0;
+}
+/*  */
+
 .products .productCont{
     width: 75vw;
     display: grid;
@@ -168,13 +218,20 @@
     margin: 2%;
     padding: 2%;
     border-radius: 10px;
-    transition: all 0.5s ease;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.products .productCont .productCard:hover img{
+    scale: 1.06;
 }
 
 .products .productCont .productCard img{
     width: 100%;
     aspect-ratio: 3/4;
-    border-radius: 5px;
+    border-radius: 10px;
+    margin: 0 0 5% 0;
+    transition: all 0.5s ease;
 }
 
 .products .productCont .productCard img + h3{

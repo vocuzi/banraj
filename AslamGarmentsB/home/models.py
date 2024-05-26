@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from phonenumber_field.modelfields import PhoneNumberField
-
+from django.utils import timezone
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -50,12 +50,15 @@ class image(models.Model):
     is_main = models.BooleanField(default=False)
     
 class Product(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200) 
     discription = models.TextField(null=True, blank=True)
     stock = models.IntegerField()
+    product_color = models.ForeignKey('home.Color', on_delete=models.CASCADE,null=True,blank=True)
     marketPrice = models.FloatField()
     sellingPrice = models.FloatField()
     images = models.ManyToManyField(image, blank=True)
+    product_size = models.ForeignKey("home.Size", on_delete=models.CASCADE, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         colors = self.color_set.all().values_list('color', flat=True)
@@ -78,13 +81,17 @@ class Product(models.Model):
         return images
     
     @property
-    def category(self):
+    def categories(self):
         category = Category.objects.filter(products__id=self.id)
         return category
     
     @property
-    def color(self):
-        return Color.objects.filter(productvariant__product=self).distinct()
+    def colors(self):
+        return ", ".join(self.color_set.all().values_list('color', flat=True))
+    
+    @property
+    def sizes(self):
+        return ", ".join(self.size_set.all().values_list('size', flat=True))
 
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
@@ -97,24 +104,18 @@ class OrderItem(models.Model):
         return total   
 
 class ProductVariant(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    color = models.ForeignKey('home.Color', on_delete=models.CASCADE)
-    
+    variant = models.CharField(max_length=50,default="NA")
+    product = models.ManyToManyField("home.Product", blank=True)
+
     def __str__(self):
-        return f"{self.product.name} - {self.color.color}"
-    
+        products = self.product.all()
+        product_str_list = [f"{product.name} - {product.product_color}" for product in products]
+        return ", ".join(product_str_list) if product_str_list else "No Products"
+
     @property
-    def get_stock(self)->int:
-        return self.product.stock
-    
-    @property
-    def get_price(self)->float:
-        return self.product.sellingPrice
-    
-    @property
-    def get_main_image(self):
-        return self.product.mainImage
- 
+    def total_products(self) -> int:
+        return self.product.count()
+
     
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
@@ -171,6 +172,7 @@ class Subscription(models.Model):
 
 class Color(models.Model):
     color = models.CharField(max_length=50)
+    hexcode = models.CharField(max_length=50, null=True, blank=True)
     products = models.ManyToManyField(Product, blank=True,verbose_name="Products Colors")
     
     def __str__(self):
@@ -181,6 +183,28 @@ class Color(models.Model):
         return self.products.count()
     
     class Meta:
-        
         verbose_name = 'Color'
         verbose_name_plural = 'Colors'
+
+class Size(models.Model):
+    size_opt = [
+        ("XS","Extra Small"),
+        ('S', 'Small'),
+        ('M', 'Medium'),
+        ('L', 'Large'),
+        ('XL', 'Extra Large'),
+        ('XXL', 'Extra Extra Large'),
+    ]
+    size = models.CharField(max_length=50,choices=size_opt,null=True,blank=True)
+    products = models.ManyToManyField(Product, blank=True,verbose_name="Products Sizes")
+    
+    def __str__(self):
+        return self.size
+    
+    @property
+    def total_products(self)->int:
+        return self.products.count()
+    
+    class Meta:
+        verbose_name = 'Size'
+        verbose_name_plural = 'Sizes'

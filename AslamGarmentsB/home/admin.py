@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib import admin
 from django.utils.html import mark_safe
-from .models import Customer, Address, Product, OrderItem, Order, image, Category, Subscription, Color, location
+from .models import Customer, Address, Product, OrderItem, Order, image, Category, Subscription, Color, location,ProductVariant,Size
 from rest_framework.authtoken.admin import TokenAdmin
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
@@ -39,24 +39,46 @@ class ColorInline(admin.TabularInline):
     extra = 1
     fields = ('color',)
 
+class SizeInline(admin.TabularInline):
+    model = Size.products.through
+    extra = 1
+    fields = ('size',)
+
 # Admin form for Product
 class ProductAdminForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'discription', 'stock', 'marketPrice', 'sellingPrice']
+        fields = ['name', 'discription', 'stock', 'marketPrice', 'sellingPrice','product_color','product_size'] 
         widgets = {
             'category': forms.CheckboxSelectMultiple,
             'color': forms.CheckboxSelectMultiple,
+            'sizes': forms.CheckboxSelectMultiple,
+
         }
+
+@admin.register(ProductVariant)
+class ProductVariantAdmin(admin.ModelAdmin):
+    list_display = ['display_products', 'total_products',"id"]
+    list_filter = ['product']
+    search_fields = ['product__name']
+
+    def display_products(self, obj):
+        products = obj.product.all()
+        return " | ".join([str(product.name)+" - "+str(product.product_color).upper() for product in products])
+    display_products.short_description = 'Products'
+
+    def total_products(self, obj):
+        return obj.product.count()
+    total_products.short_description = 'Total Products'
 
 # Product admin
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     form = ProductAdminForm
-    inlines = [ImageInline, CategoryInline, ColorInline]
-    list_display = ['name', 'id', 'marketPrice', 'sellingPrice', 'stock', 'main_image_tag', 'additional_images_tag']
+    inlines = [ImageInline, CategoryInline, ColorInline,SizeInline]
+    list_display = ['name', 'id', 'marketPrice', 'sellingPrice', 'stock','product_color', 'main_image_tag', 'additional_images_tag','color_code']
     search_fields = ['name']
-    list_filter = ['category', 'color']
+    list_filter = ['category', 'color', 'product_size']
             
     def save_formset(self, request, form, formset, change):
         if formset.model == image:
@@ -75,6 +97,12 @@ class ProductAdmin(admin.ModelAdmin):
             return mark_safe(f'<img src="{main_image.image.url}" width="50" height="50" />')
         return "-"
     main_image_tag.short_description = 'Main Image'
+    
+    def color_code(self, obj):
+        if obj.product_color:
+            flex = "display:flex;justify-content:center;align-items:center;font-size:16px;"
+            return mark_safe(f'<span style="width:60px; height:40px; background-color:{obj.product_color.hexcode};{flex}border-radius:1rem;color:white;-webkit-text-stroke: 1px black;font-weight:900;">{str(obj.product_color.hexcode).strip("#")}<span/>') 
+        return None
 
     def additional_images_tag(self, obj):
         images_html = ''
@@ -136,8 +164,14 @@ class SubscriptionAdmin(admin.ModelAdmin):
 # Color admin
 @admin.register(Color)
 class ColorAdmin(admin.ModelAdmin):
-    list_display = ['color']
+    list_display = ['color', 'id','hexcode', 'color_tag']
+    
+    def color_tag(self, obj):
+        return mark_safe(f'<div style="background-color:{obj.hexcode}; width: 50px; height: 50px;"></div>') if obj.hexcode else ("NA")
 
+@admin.register(Size)
+class SizeAdmin(admin.ModelAdmin):
+    list_display = ['size', 'id']
 # Custom admin site
 class MyAdminSite(AdminSite):
     site_header = "AG Admin"
@@ -185,3 +219,5 @@ admin_site.register(image, ImageAdmin)
 admin_site.register(Category, CategoryAdmin)
 admin_site.register(Subscription, SubscriptionAdmin)
 admin_site.register(Color, ColorAdmin)
+admin_site.register(ProductVariant, ProductVariantAdmin)
+admin_site.register(Size, SizeAdmin)

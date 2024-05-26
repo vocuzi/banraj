@@ -13,6 +13,8 @@ urlpatterns = [
     path("products/",views.ProductListView.as_view(),name="products"), 
     path("subscribe/",views.makeSubscription,name="Make Subscription"),
     path('getcolor/',views.getcolors,name='Get Colors'),
+    path('getProduct/<int:pid>/',views.getProduct,name="Get Product"),
+    path("getSizes/",views.getsizes,name="Get Sizes"),
 ] 
 
 if settings.DEBUG:

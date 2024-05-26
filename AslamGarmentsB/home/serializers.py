@@ -31,21 +31,36 @@ class ImageSerializer(serializers.ModelSerializer):
 class ColorSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Color
-        fields = ["id",'color']
+        fields = "__all__"
         
 class CategorySerializer(serializers.ModelSerializer): 
     class Meta:
         model = models.Category
         fields = ['id','name', 'image','total_products']
-        
+
+class SizeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Size
+        fields = "__all__"
+
 class ProductSerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True, read_only=True)
     colors = ColorSerializer(source='color_set', many=True, read_only=True)  # Add this line
     category = CategorySerializer(source='category_set', many=True, read_only=True)  # Add this line
+    product_color = ColorSerializer(read_only=True)
+    product_size = SizeSerializer( read_only=True)
+    sizes = SizeSerializer(source='size_set', many=True, read_only=True)
     class Meta:
         model = models.Product
-        fields = ['id','name', 'discription', 'stock', 'marketPrice', 'sellingPrice', 'images','colors','category']
-        
+        # fields = "__all__"
+        exclude = ['created_at']
+
+class ProductVariantSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(many=True,read_only=True)
+    class Meta:
+        model = models.ProductVariant
+        fields = "__all__"
+
 class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Subscription

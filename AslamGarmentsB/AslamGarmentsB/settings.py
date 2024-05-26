@@ -184,6 +184,8 @@ JAZZMIN_SETTINGS = {
         "home.Customer", 
         "home.Category",
         "home.Address",
+        "home.Size",
+        'home.ProductVariant',
         "home.Subscription",
         "home.OrderItem",
         "home.Color",
@@ -192,7 +194,7 @@ JAZZMIN_SETTINGS = {
 
     # Icons for the models
     "icons": {
-        "rest_framework.authtoken.models.Token": "fas fa-users-cog",
+        "rest_framework.authtoken.admin.TokenAdmin": "fas fa-users-cog",
         "auth.user": "fas fa-user",
         "auth.Group": "fas fa-users",
         "home.Product": "fas fa-box",
@@ -200,10 +202,12 @@ JAZZMIN_SETTINGS = {
         "home.Customer": "fas fa-user",
         "home.Address": "fas fa-address-card",
         "home.OrderItem": "fas fa-clipboard-list",
+        "home.Size": "fas fa-ruler-horizontal",
         "home.image": "fas fa-image",
         "home.Category": "fas fa-tags",
         "home.Subscription": "fas fa-envelope",
         "home.Color": "fas fa-palette",
+        "home.ProductVariant": "fas fa-th-list",  # Updated icon for ProductVariant
     },
     "related_modal_active": True,
     "custom_css": None,
