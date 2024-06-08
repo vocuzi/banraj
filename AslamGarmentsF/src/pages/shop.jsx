@@ -30,10 +30,9 @@ const Shop = () => {
     const [products, setProducts] = useState([]);
     const [colors, setAllColors] = useState([]);
     const [sizes, setSizes] = useState([]);
-    const [size, setSize] = useState('');
     const [selectSize, setSelectSize] = useState([]);
 
-    const handleSeleceSize = (id,size,event) => {
+    const handleSeleceSize = (id, size, event) => {
 
         const checked = event.target.checked;
 
@@ -51,15 +50,15 @@ const Shop = () => {
             const sizeParam = selectSize.map(sizeObj => sizeObj.id).join('&size=');
             console.log(sizeParam)
             // const response = await axios.get(`${BaseUrl}products/?category=${category}&color=${color}&min_price=${minPrice}&max_price=${maxPrice}&name=${name}&ordering=${ordering}&size=${size}`,
-            const response = await axios.get(`${BaseUrl}products/?size=${sizeParam??""}`,
+            const response = await axios.get(`${BaseUrl}products/?size=${sizeParam ?? ""}`,
                 {
-                    params:{
-                        category: category??"",
-                        color: color??"",
-                        min_price: minPrice??"",
-                        max_price: maxPrice??"",
-                        name: name??"",
-                        ordering: ordering??"",
+                    params: {
+                        category: category ?? "",
+                        color: color ?? "",
+                        min_price: minPrice ?? "",
+                        max_price: maxPrice ?? "",
+                        name: name ?? "",
+                        ordering: ordering ?? "",
                     }
                 }
             );
@@ -137,7 +136,7 @@ const Shop = () => {
     }
 
     return (
-        <body>
+        <div>
             <div className="header" style={{ height: '40vh' }}>
 
                 <Navbar page={"shop"} />
@@ -185,7 +184,7 @@ const Shop = () => {
                                 <p>All</p>
                             </label>
                             {sizes.map((size) => (
-                                <label key={size.id} style={{ gridColumn: 'span 4', justifyContent: 'start' }} onClick={(e)=>handleSeleceSize(size.id,size.size,e)}>
+                                <label key={size.id} style={{ gridColumn: 'span 4', justifyContent: 'start' }} onClick={(e) => handleSeleceSize(size.id, size.size, e)}>
                                     <input type="checkbox" value={size.id} name='size' />
                                     <p>{size.size}</p>
                                 </label>
@@ -257,7 +256,7 @@ const Shop = () => {
             </div>
             <Footer />
 
-        </body>
+        </div>
     );
 }
 

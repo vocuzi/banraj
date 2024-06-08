@@ -55,8 +55,16 @@ body {
   animation: nav 0.5s ease-in-out;
 }
 
+.navbar .ham{
+  all: unset;
+  display: none;
+  color: white;
+  cursor: pointer;
+}
+
 .navbar h1 {
   cursor: pointer;
+  position: relative;
 }
 
 .navbar h1 b {
@@ -213,7 +221,7 @@ body {
   scale: 1.05;
 }
 
-.navbar ul libutton:active {
+.navbar ul li button:active {
   background-color: #f9bf29;
   border: 1px solid #000000;
   border-radius: 1.2rem;
@@ -656,7 +664,7 @@ body {
 }
 
 footer {
-  width: 100%;
+  width: calc(100vw - 20px);
   background-color: #3b5d50;
   display: grid;
   grid-template-columns: 2.5fr 0.7fr 0.7fr 1.5fr;
@@ -664,6 +672,7 @@ footer {
   gap: 20px;
   padding: 10px;
   padding-bottom: 0;
+  overflow: hidden;
 }
 
 footer div {

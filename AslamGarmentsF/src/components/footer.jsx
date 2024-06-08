@@ -75,8 +75,9 @@ const Footer = () => {
             <div>
                 <Link to="/">Contact Us</Link>
                 <Link to="/">Jobs</Link>
+                <Link to="/">Whole Sale</Link>
             </div>
-            <div>
+            <div className="sub">
                 <h1>Subscribe</h1>
                 <input type="email" placeholder="Enter your email" id="email"/>
                 <button onClick={Subscribe}>Subscribe</button>

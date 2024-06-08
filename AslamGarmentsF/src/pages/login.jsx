@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import '../css/login.css';
-import { Link, useNavigate,useLocation } from "react-router-dom";
+import '../css/mobile.css';
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { BaseContext } from "../BaseContext";
 
 const Login = () => {
@@ -15,11 +16,11 @@ const Login = () => {
 
     const [isLogin, setIsLogin] = useState(true);
 
-    useEffect(()=>{
-        if (location.hash==='#signup'){
+    useEffect(() => {
+        if (location.hash === '#signup') {
             setIsLogin(false)
         }
-    },[location])
+    }, [location])
 
     function isNotValidPass(password) {
         const minLength = 8;
@@ -90,20 +91,20 @@ const Login = () => {
                     });
                     if (response.data['message'] === 'User Created Successfully') {
                         localStorage.setItem('token', response.data['token']);
-                        navigate('/');
+                        navigate(-1);
                     }
                     else {
                         console.log(response.data)
                         document.querySelector('.error').style.opacity = '1';
-                        if (response.data['username']){
+                        if (response.data['username']) {
                             document.querySelector('.nameError').style.opacity = '1';
                             setNameError(response.data['username']);
                         }
-                        else if (response.data['email']){
+                        else if (response.data['email']) {
                             document.querySelector('.mailError').style.opacity = '1';
                             setEmailError(response.data['email']);
-                        }   
-                        else if (response.data['message']){
+                        }
+                        else if (response.data['message']) {
                             document.querySelector('.mailError').style.opacity = '1';
                             setEmailError(response.data['message'])
                         }
@@ -153,7 +154,7 @@ const Login = () => {
             });
             if (response.data['token']) {
                 localStorage.setItem('token', response.data['token']);
-                navigate('/');
+                navigate(-1);
             }
             else {
                 document.querySelector('.error').style.display = 'block';
@@ -187,16 +188,27 @@ const Login = () => {
         document.querySelector('.error').style.opacity = '0';
         document.querySelector('.nameError').style.opacity = '0';
         document.querySelector('.mailError').style.opacity = '0';
-        setIsLogin(true) 
+        setIsLogin(true)
         const card = document.querySelector('.card');
         const btn = document.getElementById('btn');
         btn.style.animation = '1s twist-back ease-in-out'
         card.style.animation = '1s twist-back ease-in-out'
     };
 
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();  // Prevent the default action (form submission)
+            if (isLogin) {
+                login();
+            } else {
+                signup();
+            }
+        }
+    };
+
     return (
         <>
-            <body className="bdy">
+            <div className="bdy">
 
                 <div className="container">
 
@@ -214,14 +226,14 @@ const Login = () => {
                                     <p>{error}</p>
                                 </div>
                                 <div className="ina">
-                                    <input type="text" id="username" required />
+                                    <input type="text" id="username" required onKeyDown={handleKeyPress} placeholder="Username/E-mail/Phone-no" />
                                     <label htmlFor="username">Username</label>
                                     <div className="nameError">
                                         <p>{nameerror}</p>
                                     </div>
                                 </div>
                                 <div className="ina">
-                                    <input type="password" id="password" required />
+                                    <input type="password" id="password" required onKeyDown={handleKeyPress} placeholder="Your Password" />
                                     <label htmlFor="password">Password</label>
                                     <div className="mailError">
                                         <p>{passerror}</p>
@@ -239,27 +251,31 @@ const Login = () => {
                                 <div className="error">
                                     <p>{error}</p>
                                 </div>
-                                <div className="ina">
-                                    <input type="text" id="username" required />
+                                <div className="ina ">
+                                    <input type="text" id="username" required onKeyDown={handleKeyPress} placeholder="Username" />
                                     <label htmlFor="username">Username</label>
                                     <div className="nameError">
                                         <p>{nameerror}</p>
                                     </div>
                                 </div>
                                 <div className="ina">
-                                    <input type="email" id="email" required />
+                                    <input type="text" id="phone" required onKeyDown={handleKeyPress} placeholder="+91 000 000 0000" />
+                                    <label htmlFor="phone">Phone Number</label>
+                                </div>
+                                <div className="ina ">
+                                    <input type="email" id="email" required onKeyDown={handleKeyPress} placeholder="address@domain.com"/>
                                     <label htmlFor="email">Email</label>
                                     <div className="mailError">
                                         <p>{emailerror}</p>
                                     </div>
                                 </div>
                                 <div className="ina">
-                                    <input type="password" id="password" required />
+                                    <input type="password" id="password" required onKeyDown={handleKeyPress} placeholder="Password"/>
                                     <label htmlFor="password">Password</label>
                                 </div>
                                 <div className="ina">
-                                    <input type="password" id="confirmpass" required />
-                                    <label htmlFor="confirmpass">Re-Enter Password</label>
+                                    <input type="password" id="confirmpass" required onKeyDown={handleKeyPress} placeholder="Comfirm Password"/>
+                                    <label htmlFor="confirmpass">Confirm Password</label>
                                 </div>
                                 <button onClick={signup} id="btn">Sign-Up</button>
                             </div>
@@ -269,7 +285,7 @@ const Login = () => {
 
 
                 </div>
-            </body>
+            </div>
         </>
     );
 };

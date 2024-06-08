@@ -97,13 +97,11 @@
     width: 60%;
     height: 60%;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
-    align-items: safe;
+    align-items: center;
     border-radius: 50px;
-    /* background: linear-gradient(145deg, #e6e6e6, #ffffff); */
-    /* box-shadow: 20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff; */
-    backdrop-filter: brightness(1) ;
+    backdrop-filter: brightness(1);
     margin-bottom: 5%;
     transition: all 1s ease-in-out;
     animation: 1s twist ease-in-out;
@@ -137,7 +135,7 @@
     width: 100%;
     position: relative;
     height: 40px;
-    margin: 2%;
+    margin: 5%;
     transition: all 0.2s ease-in-out;
     animation: 1s twist ease-in-out;
 }
@@ -167,6 +165,15 @@
     font-size: 1.2rem;
 }
 
+.login .card .ina input::placeholder {
+    font-size: 1rem;
+    opacity: 0;
+}
+
+.login .card .ina input:focus::placeholder {
+    opacity: 1;
+}
+
 .login .card .ina input:focus {
     outline: none;
 }
@@ -183,17 +190,82 @@
     top: -28px;
 }
 
+/* 
+.login .card .hf{
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    position: relative;
+    height: 40px;
+    margin: 0 2%;
+    transition: all 0.2s ease-in-out;
+    animation: 1s twist ease-in-out;
+}
+
+
+.login .card .hf label {
+    position: absolute;
+    font-size: 1.4rem;
+    width: 100%;
+    text-align: left;
+    top: 5%;
+    left: 0%;
+    transition: all 0.2s ease-in-out;
+    animation: 1s twist ease-in-out;
+}
+
+.login .card .hf input {
+    position: absolute;
+    width: 100%;
+    line-height: 36px;
+    border: none;
+    background: transparent;
+    border-bottom: 2px solid #242424;
+    bottom: 0;
+    transition: all 0.2s ease-in-out;
+    animation: 1s twist ease-in-out;
+    text-indent: 5%;
+    font-size: 1.2rem;
+}
+
+.login .card .hf input::placeholder{
+    font-size: 1rem;
+    opacity: 0;
+}
+
+.login .card .hf input:focus::placeholder{
+    opacity: 1;
+}
+
+.login .card .hf input:focus {
+    outline: none;
+}
+
+.login .card .hf input:focus~label {
+    left: 0;
+    font-size: 1rem;
+    top: -28px;
+}
+
+.login .card .hf input:valid~label {
+    scale: 0.7;
+    left: 12%;
+    top: -28px;
+} */
+
 .login .card button {
     width: 60%;
     height: 40px;
     border: none;
-    background: #343434;
+    background: #3a3a3a;
     color: #fff;
     font-size: 1.4rem;
     border-radius: 20px;
     margin: 4%;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.5s ease-in-out;
     animation: 1s twist ease-in-out;
 }
 

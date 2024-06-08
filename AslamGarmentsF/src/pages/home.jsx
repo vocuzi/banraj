@@ -4,7 +4,6 @@ import '../css/google.css';
 import '../css/decoration.css';
 import '../css/external.css';
 import { useNavigate, useLocation } from "react-router-dom";
-import model from '../images/model.png';
 import cross from '../images/cross.svg';
 import aboutUS from '../images/FinishingAreanew1.jpg';
 import Navbar from "../components/navbar";
@@ -68,8 +67,6 @@ const Home = () => {
                         <button onClick={() => navigate('/shop/')}>View Products</button>
                         <button onClick={() => catog.current.scrollIntoView({ behavior: "smooth" })}>Category</button>
                     </div>
-                    <img src={model} alt="Model Images" />
-
                 </div>
             </div>
 

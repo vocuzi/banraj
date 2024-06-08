@@ -3,7 +3,8 @@ import Navbar from "../components/navbar";
 import "../css/product.css"
 import axios from "axios";
 import { BaseContext } from "../BaseContext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Footer from "../components/footer";
 
 const Product = () => {
     const param = useParams();
@@ -16,6 +17,32 @@ const Product = () => {
     const [imgIndex, setImgIndex] = useState(0);
     const [variants, setVariants] = useState(false)
     const [selectedSize, setSelectedSize] = useState("");
+    const navigate = useNavigate();
+    const [auth, setAuth] = useState(false)
+    const [mainImg, setMainImg] = useState("")
+    const [quantity, setQuantity] = useState(1)
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        const checkAuth = async () => {
+            try {
+                if (token) {
+                    const response = await axios.get(`${BaseUrl}checkAuth/`, {
+                        headers: {
+                            Authorization: `Token ${token}`
+                        }
+                    })
+                    if (response.data['message'] === "Authenticated") {
+                        setAuth(true)
+                    }
+                }
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        checkAuth();
+    }, [BaseUrl])
 
     function calculateDiscountPercentage(marketPrice, sellingPrice) {
         if (marketPrice <= 0) {
@@ -53,7 +80,10 @@ const Product = () => {
         if (raw) {
             const pro = raw.find((productItem) => productItem.id === currentProductID);
             setProduct(pro);
-
+            if (pro.sizes.length <= 1) {
+                setSelectedSize(pro.product_size.id);
+            }
+            setMainImg(pro.images.find((image) => image.is_main))
             raw.forEach((productItem) => {
                 // if (productItem.id !== currentProductID) {
                 const mainImage = productItem.images.find((image) => image.is_main);
@@ -71,11 +101,116 @@ const Product = () => {
         }, 5000);
 
         return () => clearInterval(interval);
-    }, [product]);
+    });
 
+    const handleATC = async () => {
+        if (!auth) {
+            alert("Please login to add to cart")
+        }
+        else if (selectedSize === "") {
+            alert("Please select a size to add to cart")
+        }
+        else if (auth) {
+            const token = localStorage.getItem('token');
+            const response = await axios.post(`${BaseUrl}addtocart/`,
+                {
+                    product: currentProductID,
+                    size: selectedSize,
+                    color: product.product_color.id
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Token ${token}`
+                    }
+                }
+            )
+            if (response.data['message'] === "Success") {
+                alert("Product added to cart")
+            }
+            else {
+                console.log(response.data);
+            }
+        }
+
+    }
+
+    const BuyNow = async () => {
+         if (auth) {
+            const token = localStorage.getItem('token');
+            var bynow= document.getElementById("BuyNow")
+            bynow.disabled = true;
+            console.log(currentProductID, selectedSize, quantity, product.product_color.id)
+            const response = await axios.post(`${BaseUrl}singleOrder/`,
+                {
+                    product: currentProductID,
+                    size: selectedSize,
+                    quantity: quantity,
+                    color: product.product_color.id
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Token ${token}`
+                    }
+                }
+            )
+            if (response.data['message'] === "Success") {
+                var popup = document.getElementById("popup");
+                popup.style.display = 'none';
+                bynow.disabled = false;
+                alert("Order Placed Successfully")
+            }
+            else if (response.data['message']==="Invalid"){
+                alert("Please Fill the address for Delivery")
+                setTimeout(()=>{
+                    navigate("/profile")
+                },1000)
+            }
+            else {
+                console.log(response.data);
+            }
+        }
+    }
+
+    const handlePopup = () => {
+        var popup = document.getElementById("popup");
+        if (!auth) {
+            alert("Please login to Buy Any Product")
+        }
+        else if (selectedSize === "") {
+            alert("Please select a size to Buy this Product")
+        }
+        else{
+            popup.style.display = "flex";
+        }
+    }
 
     return (
         <div>
+            <div id="popup" className="popup">
+                <div className="cont ">
+                    <button className="bak material-symbols-outlined" onClick={() => document.getElementById("popup").style.display = "none"}>close</button>
+                    <h1>{product.name}</h1>
+                    {product.images ? <img src={`${BaseUrl.slice(0, -1)}${product.images.find((image)=>image.is_main).image}`} alt="product" /> : ""}
+                    <div className="details ">
+                        <h3>Color: {product.product_color ? <p>{product.product_color.color.toUpperCase()}</p> : ""}</h3>
+                        <br />
+                        <h3>Size: {product.product_size ? <p>{product.product_size.size}</p> : ""}</h3>
+                        <br />
+                        <h3>MRP: <p>₹{product.marketPrice * quantity} (+)</p></h3><br />
+                        <h3>Discount: <p>₹{(product.marketPrice - product.sellingPrice) * quantity} (-)</p></h3><br />
+                        <h3>Delivery Charges: <p>₹0 (+)</p></h3><br />
+                        <h3>Total: <p>₹{product.sellingPrice * quantity}</p></h3><br />
+                        <h3>Quantity:</h3>
+                        <div className="qty">
+                            <button className="pls material-symbols-outlined" onClick={() => setQuantity(prevQuantity => prevQuantity + 1)}>add</button><b>{quantity}</b><button className="mis material-symbols-outlined" onClick={() => setQuantity(prevQuantity => Math.max(1, prevQuantity - 1))}>remove</button>
+                        </div>
+                    </div>
+                    <button id="BuyNow" className="buynow" onClick={BuyNow}>Confirm Order</button>
+                </div>
+            </div>
+            <button id="back" className="back material-symbols-outlined" onClick={() => navigate(-1)} >arrow_back <i>Back</i></button>
             <Navbar />
             <main>
                 <div className="carousel">
@@ -100,7 +235,7 @@ const Product = () => {
                     {product.product_size ? <p><strong>Size: </strong> {product.product_size.size}</p> : (<></>)}
                     {product.product_color ? <p><strong>Color: </strong>{product.product_color.color.toUpperCase()}</p> : <></>}
                     <p className="mrp">₹{product.marketPrice}</p>
-                    <p className="price">₹{product.sellingPrice} <i>{calculateDiscountPercentage(product.marketPrice, product.sellingPrice)}<span class="material-symbols-outlined">sell</span></i></p>
+                    <p className="price">₹{product.sellingPrice} <i>{calculateDiscountPercentage(product.marketPrice, product.sellingPrice)}<span className="material-symbols-outlined">sell</span></i></p>
                     {variants && <p className="head">Avali Variants:</p>}
                     {variants && (<div className="variants ">
                         {
@@ -120,13 +255,15 @@ const Product = () => {
                             {
                                 product.sizes.map((size, index) => {
                                     return (
-                                        <span key={index} className={selectedSize===size.size?"size selected":"size "} onClick={()=>setSelectedSize(size.size)}>{size.size}</span>
+                                        <span key={index} className={selectedSize === size.id ? "size selected" : "size "} onClick={() => setSelectedSize(size.id)}>{size.size}</span>
                                     )
                                 })
                             }
                         </div>) : <></>}
+                    <button className={auth ? "bn" : "bn dis"} onClick={handlePopup}>Buy Now<span className="material-symbols-outlined">local_mall</span></button><button className={auth ? "atc" : "atc dis"} onClick={handleATC}>Add To Cart<span className="material-symbols-outlined">shopping_cart</span></button>
                 </div>
             </main>
+            <Footer />
         </div>
     );
 }
