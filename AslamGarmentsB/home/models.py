@@ -7,12 +7,23 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+import re
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
+
+def validate_gst(value):
+    gst_pattern = r'^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$'
+    if not re.match(gst_pattern, value):
+        raise ValidationError(
+            _('Invalid GST number. Please enter a valid GST number.'),
+            code='invalid_gst'
+        )
 
 
 class location(models.Model):
@@ -29,6 +40,7 @@ class Customer(models.Model):
     cart = models.ManyToManyField("home.CartItem", blank=True)
     otp = models.PositiveIntegerField(null=True)
     otpst = models.DateTimeField(default=timezone.now)
+    gstNo = models.CharField(max_length=200, null=True, blank=True,validators=[validate_gst],unique=True)
 
     def __str__(self):
         return self.user.username
@@ -47,6 +59,14 @@ class Customer(models.Model):
     def address(self):
         address = Address.objects.get(user=self.user)
         return address
+    
+    @property
+    def getGST(self):
+        return self.gstNo
+    
+    @property
+    def is_wholeSaleUser(self):
+        return True if self.gstNo else False
 
 
 class Address(models.Model):
@@ -143,7 +163,29 @@ class Product(models.Model):
     def sizes(self):
         return ", ".join(self.size_set.all().values_list("size", flat=True))
 
-
+class BulkProductItem(models.Model):
+    bulk = models.ForeignKey("home.BulkProducts", on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    bulk_qty = models.IntegerField(default=1)
+    
+    def __str__(self):
+        return self.product.name
+    
+class BulkProducts(models.Model):
+    name = models.CharField(max_length=200)
+    discription = models.TextField(null=True, blank=True)
+    marketPrice = models.FloatField()
+    wholeSellPrice = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    img = models.ImageField(upload_to="bulk_pic/", null=True, blank=True)
+    
+    def __str__(self):
+        return self.name
+    
+    @property
+    def bulk_items(self):
+        return BulkProductItem.objects.filter(bulk=self)
+    
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     quantity = models.IntegerField(default=1)
@@ -265,11 +307,19 @@ class Size(models.Model):
         ("XXL", "Extra Extra Large"),
     ]
     size = models.CharField(max_length=50, choices=size_opt, null=True, blank=True)
-    products = models.ManyToManyField(
-        Product, blank=True, verbose_name="Products Sizes"
-    )
+    products = models.ManyToManyField(Product, blank=True, verbose_name="Products Sizes")
+    shoulder = models.FloatField(null=True, blank=True)
+    chest = models.FloatField(null=True, blank=True)
+    top_length = models.FloatField(null=True, blank=True)
+    sleev_length = models.FloatField(null=True, blank=True)
+    waist = models.FloatField(null=True, blank=True)
+    hip = models.FloatField(null=True, blank=True)
+    pant_length = models.FloatField(null=True, blank=True)
+    thigh = models.FloatField(null=True, blank=True)
+    
 
     def __str__(self):
+        # return f"{self.size} => Shoulder : {self.shoulder} | Chest: {self.chest} | Top Length: {self.top_length} | Sleeve Length: {self.sleev_length} | Waist: {self.waist} | Hip: {self.hip} | Pant Length: {self.pant_length} | Thigh: {self.thigh}"
         return self.size
 
     @property

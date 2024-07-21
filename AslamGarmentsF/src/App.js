@@ -10,6 +10,7 @@ import Login from './pages/login';
 import UserProfile from './pages/profile';
 import Product from './pages/product';
 import Cart from './pages/cart';
+import WholeSale from './pages/wholeSale';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path='/product/:pid' element={<Product />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/wholeSale" element={<WholeSale />} />
         </Routes>
       </BrowserRouter>
     </BaseProvider>

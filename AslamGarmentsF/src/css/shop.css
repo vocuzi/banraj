@@ -73,7 +73,7 @@
 .products .filterside .options span {
     width: 45px;
     height: 45px;
-    margin: auto;
+    margin: 8px 0;
     border: 2px solid white;
     box-shadow: 0 0 12px -4px #000;
     border-radius: 50%;

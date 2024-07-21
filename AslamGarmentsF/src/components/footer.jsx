@@ -3,7 +3,7 @@ import '../css/style.css';
 import '../css/google.css';
 import '../css/decoration.css';
 import '../css/external.css';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import whatsapp from '../images/whatsapp.png';
 import facebook from '../images/facebook.png';
 import twitter from '../images/twitter.png';
@@ -21,10 +21,35 @@ const Footer = () => {
         { id: 4, icon: instagram }
     ]
 
+    const navigate = useNavigate();
+
     const [error, setError] = useState('')
     const [isError, setIsError] = useState(true)
 
     const { BaseUrl } = useContext(BaseContext);
+
+    const isWholeSaleUser = async() => { 
+        try {
+            const response = await axios.get(`${BaseUrl}isWholeSaleUser/`,{
+                headers: {
+                    Authorization: `Token ${localStorage.getItem('token')}`
+                }
+            })
+            if (response.data['is_wholeSaleUser']) {
+                navigate("/wholeSale");
+                // navigate to Whole sale products page
+            }
+            else {
+                alert("Please Provide your GST Number in the Profile Page to access the Whole Sale Products.")
+                setTimeout(() => {
+                    navigate("/profile")
+                }, 1000)
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const Subscribe = async () => {
         const email = document.getElementById("email").value;
@@ -75,11 +100,11 @@ const Footer = () => {
             <div>
                 <Link to="/">Contact Us</Link>
                 <Link to="/">Jobs</Link>
-                <Link to="/">Whole Sale</Link>
+                <Link to="/" onClick={isWholeSaleUser}>Whole Sale</Link>
             </div>
             <div className="sub">
                 <h1>Subscribe</h1>
-                <input type="email" placeholder="Enter your email" id="email"/>
+                <input type="email" placeholder="Enter your email" id="email" />
                 <button onClick={Subscribe}>Subscribe</button>
                 {
                     isError ? (

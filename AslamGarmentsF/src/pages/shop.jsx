@@ -6,8 +6,11 @@ import Navbar from "../components/navbar";
 import axios from "axios";
 import { BaseContext } from "../BaseContext";
 import 'rc-slider/assets/index.css';
+import child from '../images/FinishingAreanew1.jpg'
+import child2 from '../images/PRODUCTION-CAPACITY.jpg'
+import child3 from "../images/garment-job-work.jpg"
 
-const Shop = () => {
+const Shop = (page) => {
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -25,15 +28,27 @@ const Shop = () => {
     const [ordering, setOrdering] = useState('')
     const [color, setColor] = useState('');
     const [df, setdf] = useState([])
-
+    const images = [child, child2, child3]
     const [categories, setCategories] = useState([])
     const [products, setProducts] = useState([]);
     const [colors, setAllColors] = useState([]);
     const [sizes, setSizes] = useState([]);
     const [selectSize, setSelectSize] = useState([]);
+    const [img, setImg] = useState(child)
+
+    useEffect(() => {
+        let i = 0;
+        var imag = document.getElementById("headImg");
+        setInterval(() => {
+            if (i === 3) {
+                i = 0;
+            }
+            setImg(images[i])
+            i++;
+        }, 5000)
+    }, [])
 
     const handleSeleceSize = (id, size, event) => {
-
         const checked = event.target.checked;
 
         setSelectSize(prevSelectSize => {
@@ -77,7 +92,7 @@ const Shop = () => {
             setProducts(formattedProducts);
             const prices = formattedProducts.map(product => product.sellingPrice)
             setdf([Math.min(...prices), Math.max(...prices)])
-
+            document.getElementById('load').style.display = 'none';
         }
         catch (error) {
             console.log(error)
@@ -121,6 +136,7 @@ const Shop = () => {
     }
 
     useEffect(() => {
+        console.log(page.page)
         fetchProduct();
         getColors();
         getCategory();
@@ -132,21 +148,32 @@ const Shop = () => {
             alert("Minimum price should be less than maximum price")
             return;
         }
+        document.getElementById('load').style.display = "flex"
         fetchProduct();
+    }
+
+    const enter = (e) => {
+        if (e.key === 'Enter') {
+            addFilters();
+        }
     }
 
     return (
         <div>
-            <div className="header" style={{ height: '40vh' }}>
+            <div id="load" className="loader-wrap">
+                <div className="loader"></div>
+            </div>
+            <div className="header">
 
                 <Navbar page={"shop"} />
 
                 <div className="content">
-                    <div className="lfttxt" style={{ position: 'absolute', top: '50%' }} >
-                        <h1 className="saira-condensed-bold">Product Section</h1>
+                    <img id="headImg" src={img} alt="header Image" />
+                    <div className="lfttxt">
+                        <h1>Product Section</h1>
                     </div>
                     <div className="searchbar">
-                        <input type="text" placeholder="Search" onChange={(e) => setName(e.target.value)} />
+                        <input type="text" placeholder="Search" onChange={(e) => setName(e.target.value)} onKeyDown={enter} />
                         <span className="material-symbols-outlined" style={{ cursor: 'pointer' }} onClick={addFilters}>search</span>
                     </div>
                 </div>
@@ -237,7 +264,7 @@ const Shop = () => {
                     </label>
                     {colorisopen ? (
                         <div className="options">
-                            {colors.map((color) => (<span key={color.id} style={{ backgroundColor: (color.hexcode ? color.hexcode : color.color) }} onClick={() => setColor(color.id)}>{color.color}</span>))}
+                            {colors.map((color) => (<span key={color.id} style={{ backgroundColor: (color.hexcode ? color.hexcode : color.color) }} onClick={() => setColor(color.id)}></span>))}
                         </div>
                     ) : (<></>)}
                     <hr />

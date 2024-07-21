@@ -18,6 +18,7 @@ const UserProfile = () => {
     const [message, setMessage] = useState("");
     const [view, setView] = useState('personal');
     const [changes, setChanges] = useState(false)
+    const [gst, setGst] = useState("")
 
     const [user, setUser] = useState({
         firstname: "",
@@ -32,6 +33,7 @@ const UserProfile = () => {
         pincode: '',
         country: '',
         landmark: '',
+        gstNo: "",
         profilePic: 'https://www.w3schools.com/howto/img_avatar.png',
     });
 
@@ -72,6 +74,9 @@ const UserProfile = () => {
             formData.append('landmark', user.landmark);
             if (user.profilePic instanceof File) {
                 formData.append('profilePic', user.profilePic);
+            }
+            if (user.gstNo !== gst){
+                formData.append('gstNo', user.gstNo);
             }
             const response = await axios.post(`${BaseUrl}profile/`, formData, {
                 headers: {
@@ -117,6 +122,7 @@ const UserProfile = () => {
             console.log(response.data)
             setPP(response.data['profilePic'])
             setUser(response.data)
+            setGst(response.data['gstNo'])
         }
         getUser();
     }, [])
@@ -151,7 +157,7 @@ const UserProfile = () => {
                 <nav>
                     <ul>
                         <li onClick={() => setView("personal")} className={view === "personal" ? "active" : ''}><Link to="#">Personal</Link></li>
-                        <li onClick={() => (setView("order"),getOrders())} className={view === "order" ? "active" : ''}><Link to="#">Orders</Link></li>
+                        <li onClick={() => (setView("order"), getOrders())} className={view === "order" ? "active" : ''}><Link to="#">Orders</Link></li>
                         <li onClick={() => setView("preorder")} className={view === "preorder" ? "active" : ''}><Link to="#">Previous Orders</Link></li>
                     </ul>
                 </nav>
@@ -180,10 +186,11 @@ const UserProfile = () => {
                                 : (<input type="text" id='phone' value={user.phone} onChange={update} placeholder='' readOnly disabled />)}
                             <p>Phone</p>
                         </label>
-                        {/* <label htmlFor="profilePic">
-                            <input type="file" id='profilePic' onChange={handleFileChange} style={{ display: edit ? 'block' : 'none' }} />
-                            <p>Profile Picture</p>
-                        </label> */}
+                        <label htmlFor="gstNo">
+                            {edit ? (<input type="text" id='gstNo' value={user.gstNo} onChange={update} placeholder='' />)
+                                : (<input type="text" id='gstNo' value={user.gstNo} onChange={update} placeholder='' readOnly disabled />)}
+                            <p>GST No.</p>
+                        </label>
                         <h1>Address Details</h1>
                         <label htmlFor="doorNo">
                             {edit ? (<input type="text" id='doorNo' value={user.doorNo} onChange={update} placeholder='' />)

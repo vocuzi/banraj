@@ -2,23 +2,11 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import pytz
+import re
 
-# def send_email(receiver_email, subject, body):
-#     sender_email = "natesantitan3@gmail.com"
-#     sender_password = "wpez xrpu ozrj rgwa"
-
-#     message = MIMEMultipart()
-#     message['From'] = sender_email
-#     message['To'] = receiver_email
-#     message['Subject' ]  = subject
-
-#     message.attach(MIMEText(body, 'plain'))
-
-#     with smtplib.SMTP('smtp.gmail.com', 587) as server:
-#         server.starttls()  # Use TLS for security
-#         server.login(sender_email, sender_password)
-#         server.sendmail(sender_email, receiver_email, message.as_string())
-
+def validate_gst(gst_number):
+    gst_pattern = r'^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$'
+    return bool(re.match(gst_pattern, gst_number))
 
 def send_email(
     to_email,

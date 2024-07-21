@@ -18,3 +18,8 @@ Content-Type: application/json
 ### Get all categories
 GET http://localhost:8000/getProduct/5/ HTTP/1.1
 Content-Type: application/json
+
+### Get product by id
+GET http://127.0.0.1:8000/getWholeSaleProducts/ HTTP/1.1
+Content-Type: application/json
+Authorization: Token 7ea3e1cc9f94d292c30867066a04e3de6ec4ebef

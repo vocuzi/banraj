@@ -1,4 +1,4 @@
-import React, { useRef,useState,useEffect,useContext } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import '../css/style.css';
 import '../css/google.css';
 import '../css/decoration.css';
@@ -35,8 +35,8 @@ const Service = () => {
         getCat();
     }, [BaseUrl])
 
-    const clickCat=(catogID)=>{
-        navigate('/shop/',{state:{categoryID:catogID}})
+    const clickCat = (catogID) => {
+        navigate('/shop/', { state: { categoryID: catogID } })
     }
 
     return (
@@ -63,21 +63,47 @@ const Service = () => {
                 <div className="card">
                     <span className="material-symbols-outlined">local_shipping</span>
                     <h2>Fast & Free Delivery</h2>
-                    <p>Free and Faster Delivery for all the products in local and under few terms and conditions.</p>
+                    <p>Free and faster delivery for all the products in local and under few terms and conditions.</p>
                 </div>
                 <div className="card">
                     <span className="material-symbols-outlined">shopping_bag</span>
                     <h2>Easy to Shop</h2>
-                    <p>Easy to shop with our website and get the products at your door step.</p>
+                    <p>Easy to shop with our website and get the products at your doorstep.</p>
                 </div>
                 <div className="card">
-                    <span className="material-symbols-outlined">local_shipping</span>
+                    <span className="material-symbols-outlined">autorenew</span>
                     <h2>Easy Replacement</h2>
-                    <p>Easy replacement for the products with in 7 days of delivery with few terms and conditions.</p>
+                    <p>Easy replacement for the products within 7 days of delivery with few terms and conditions.</p>
+                </div>
+                <div className="card">
+                    <span className="material-symbols-outlined">support_agent</span>
+                    <h2>24/7 Support</h2>
+                    <p>Our support team is available 24/7 to assist you with any issues or questions.</p>
+                </div>
+                {/* <div className="card">
+                    <span className="material-symbols-outlined">security</span>
+                    <h2>Secure Payments</h2>
+                    <p>All transactions are secure and encrypted, ensuring your personal and payment information is safe.</p>
+                </div> */}
+                <div className="card">
+                    <span className="material-symbols-outlined">local_mall</span>
+                    <h2>Single Product Purchase</h2>
+                    <p>Purchase single items easily with our streamlined checkout process, perfect for individual buyers.</p>
+                </div>
+                <div className="card">
+                    <span className="material-symbols-outlined">shopping_cart</span>
+                    <h2>Bulk Product Purchase</h2>
+                    <p>Get discounts on bulk purchases and enjoy convenient bulk order processing for your business needs.</p>
+                </div>
+                <div className="card">
+                    <span className="material-symbols-outlined">thumb_up</span>
+                    <h2>Customer Satisfaction</h2>
+                    <p>We prioritize customer satisfaction with a hassle-free shopping experience and quality products.</p>
                 </div>
             </div>
+
             <div className="category" ref={catog}>
-            <div className="txt" >
+                <div className="txt" >
                     <h1>Our Products</h1>
                     <p>
                         We offer a wide range of garments for all age ranged people. Our all
@@ -86,14 +112,14 @@ const Service = () => {
                     <button onClick={() => catog.current.scrollIntoView({ behavior: "smooth" })}>Explore</button>
                 </div>
                 <div className="cont">
-                {
+                    {
                         categories.map((category) => (
-                            <div key={category.id} className="card " onClick={()=>clickCat(category.id)}>
-                                    <img src={`${BaseUrl.slice(0, -1)}${category.image}`} className=" product-thumbnail" alt={category.name} />
-                                    <h3 className="product-title">{category.name}</h3>
-                                    <div className="cross">
-                                        <img src={cross} alt="Cross" />
-                                    </div>
+                            <div key={category.id} className="card " onClick={() => clickCat(category.id)}>
+                                <img src={`${BaseUrl.slice(0, -1)}${category.image}`} className=" product-thumbnail" alt={category.name} />
+                                <h3 className="product-title">{category.name}</h3>
+                                <div className="cross">
+                                    <img src={cross} alt="Cross" />
+                                </div>
                             </div>
                         ))
                     }

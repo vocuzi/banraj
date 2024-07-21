@@ -2,17 +2,20 @@ from . import models, serializers, filters
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate
-from rest_framework import generics,status
+from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view,permission_classes,authentication_classes
+from rest_framework.decorators import (
+    api_view,
+    permission_classes,
+    authentication_classes,
+)
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
-from .needs import send_email
-import pytz
+from .needs import send_email, validate_gst
 
 
 @api_view(["POST"])
@@ -55,24 +58,27 @@ def register(request):
 #         token, created = Token.objects.get_or_create(user=user)
 #         return Response({"token": token.key, "user_id": user.pk, "email": user.email})
 
+
 class CustomAuthToken(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        username = request.data.get('username')
-        password = request.data.get('password')
-        
+        username = request.data.get("username")
+        password = request.data.get("password")
+
         user = authenticate(request, username=username, password=password)
-        
+
         if user is not None:
             token, created = Token.objects.get_or_create(user=user)
-            return Response({
-                'token': token.key,
-                'user_id': user.pk,
-                'email': user.email
-            }, status=status.HTTP_200_OK)
+            return Response(
+                {"token": token.key, "user_id": user.pk, "email": user.email},
+                status=status.HTTP_200_OK,
+            )
         else:
-            return Response({'error': 'Invalid Credentials'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": "Invalid Credentials"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
@@ -232,7 +238,7 @@ def singleOrder(request):
             order.products.add(ois.instance)
             order.save()
             send_email(
-                to_email= user.user.email ,
+                to_email=user.user.email,
                 subject="Order Placed",
                 username=user.user.username,
                 product_name=ois.instance.product.name,
@@ -242,7 +248,7 @@ def singleOrder(request):
                 address=f"{user.address.doorNo}, {user.address.street}, {user.address.city}, {user.address.state}, {user.address.country}, {user.address.pincode}",
                 phone=user.address.phone,
                 landmark=user.address.landmark,
-                order_date=order.date
+                order_date=order.date,
             )
             return Response({"message": "Success"})
         return Response(ois.errors)
@@ -269,7 +275,7 @@ def profile(request):
             "city": address.city,
             "state": address.state,
             "email": user.user.email,
-            "doorNo": address.doorNo,
+            "doorNo": address.doorNo, 
             "street": address.street,
             "phone": address.getPhone,
             "pincode": address.pincode,
@@ -279,6 +285,7 @@ def profile(request):
             "username": user.user.username,
             "lastname": user.user.last_name,
             "firstname": user.user.first_name,
+            "gstNo": user.gstNo,
         }
         return Response(cont)
 
@@ -299,6 +306,7 @@ def profile(request):
         user.save()
         address.save()
         user.user.save()
+
         if (
             models.User.objects.filter(email=request.data["email"])
             .exclude(pk=user.user.pk)
@@ -317,6 +325,23 @@ def profile(request):
             .exists()
         ):
             return Response({"message": "Phone Number Already Exists"})
+        try:
+            if request.data["gstNo"] and validate_gst(request.data["gstNo"]):
+                if (
+                    request.data["gstNo"]
+                    and models.Customer.objects.filter(gstNo=request.data["gstNo"])
+                    .exclude(pk=user.pk)
+                    .exists()
+                ):
+                    return Response({"message": "GST Number Already Exists"})
+                elif request.data["gstNo"]:
+                    user.gstNo = request.data["gstNo"]
+                    user.save()
+            else:
+                return Response({"message": "Invalid GST Number"})
+        except:
+            pass
+        
         address.phone = request.data["phone"]
         user.user.email = request.data["email"]
         user.user.username = request.data["username"]
@@ -324,7 +349,7 @@ def profile(request):
         address.save()
         user.user.save()
         if not address.is_val:
-            return Response({"message": "Invalid"}) 
+            return Response({"message": "Invalid"})
         return Response({"message": "Success"})
 
 
@@ -335,3 +360,20 @@ def getOrder(request):
     order = models.Order.objects.filter(customer=user)
     serializer = serializers.OrderSerializer(order, many=True)
     return Response(serializer.data)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def isWholeSaleUser(request):
+    if request.method == "GET":
+        user = models.Customer.objects.get(user=request.user)
+        return Response({"is_wholeSaleUser": user.is_wholeSaleUser})
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def getWholeSaleProducts(request):
+    if request.method == "GET":
+        products = models.BulkProducts.objects.all()
+        serializer = serializers.BulkProductSerializer(products, many=True) 
+        return Response(serializer.data)

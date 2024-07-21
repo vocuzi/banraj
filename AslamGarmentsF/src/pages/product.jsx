@@ -19,7 +19,6 @@ const Product = () => {
     const [selectedSize, setSelectedSize] = useState("");
     const navigate = useNavigate();
     const [auth, setAuth] = useState(false)
-    const [mainImg, setMainImg] = useState("")
     const [quantity, setQuantity] = useState(1)
 
     useEffect(() => {
@@ -83,7 +82,6 @@ const Product = () => {
             if (pro.sizes.length <= 1) {
                 setSelectedSize(pro.product_size.id);
             }
-            setMainImg(pro.images.find((image) => image.is_main))
             raw.forEach((productItem) => {
                 // if (productItem.id !== currentProductID) {
                 const mainImage = productItem.images.find((image) => image.is_main);
@@ -136,9 +134,9 @@ const Product = () => {
     }
 
     const BuyNow = async () => {
-         if (auth) {
+        if (auth) {
             const token = localStorage.getItem('token');
-            var bynow= document.getElementById("BuyNow")
+            var bynow = document.getElementById("BuyNow")
             bynow.disabled = true;
             console.log(currentProductID, selectedSize, quantity, product.product_color.id)
             const response = await axios.post(`${BaseUrl}singleOrder/`,
@@ -161,11 +159,11 @@ const Product = () => {
                 bynow.disabled = false;
                 alert("Order Placed Successfully")
             }
-            else if (response.data['message']==="Invalid"){
+            else if (response.data['message'] === "Invalid") {
                 alert("Please Fill the address for Delivery")
-                setTimeout(()=>{
+                setTimeout(() => {
                     navigate("/profile")
-                },1000)
+                }, 1000)
             }
             else {
                 console.log(response.data);
@@ -181,7 +179,7 @@ const Product = () => {
         else if (selectedSize === "") {
             alert("Please select a size to Buy this Product")
         }
-        else{
+        else {
             popup.style.display = "flex";
         }
     }
@@ -192,7 +190,7 @@ const Product = () => {
                 <div className="cont ">
                     <button className="bak material-symbols-outlined" onClick={() => document.getElementById("popup").style.display = "none"}>close</button>
                     <h1>{product.name}</h1>
-                    {product.images ? <img src={`${BaseUrl.slice(0, -1)}${product.images.find((image)=>image.is_main).image}`} alt="product" /> : ""}
+                    {product.images ? <img src={`${BaseUrl.slice(0, -1)}${product.images.find((image) => image.is_main).image}`} alt="product" /> : ""}
                     <div className="details ">
                         <h3>Color: {product.product_color ? <p>{product.product_color.color.toUpperCase()}</p> : ""}</h3>
                         <br />
@@ -208,6 +206,49 @@ const Product = () => {
                         </div>
                     </div>
                     <button id="BuyNow" className="buynow" onClick={BuyNow}>Confirm Order</button>
+                </div>
+            </div>
+            <div className="sChart" id="chart">
+                <div className="cont">
+                    <button className="bak material-symbols-outlined" onClick={() => document.getElementById("chart").style.display = "none"}>close</button>
+                    <h1>Size Chart</h1>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Size</th>
+                                {product.sizes && product.sizes.some(size => size.shoulder !== null) && <th>Shoulder</th>}
+                                {product.sizes && product.sizes.some(size => size.chest !== null) && <th>Chest</th>}
+                                {product.sizes && product.sizes.some(size => size.top_length !== null) && <th>Length</th>}
+                                {product.sizes && product.sizes.some(size => size.waist !== null) && <th>Waist</th>}
+                                {product.sizes && product.sizes.some(size => size.hip !== null) && <th>Hip</th>}
+                                {product.sizes && product.sizes.some(size => size.pant_length !== null) && <th>Bottom Length</th>}
+                                {product.sizes && product.sizes.some(size => size.thigh !== null) && <th>Thigh</th>}
+                                {product.sizes && product.sizes.some(size => size.sleev_length !== null) && <th>Sleev Length</th>}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                product.sizes && (
+                                    product.sizes.map((size) => {
+                                        return (
+                                            <tr key={size.id}>
+                                                {size.size && <td>{size.size}</td>}
+                                                {product.sizes.some(size => size.shoulder !== null) && <td>{size.shoulder ?? "-"}</td>}
+                                                {product.sizes.some(size => size.chest !== null) && <td>{size.chest ?? "-"}</td>}
+                                                {product.sizes.some(size => size.top_length !== null) && <td>{size.top_length ?? "-"}</td>}
+                                                {product.sizes.some(size => size.waist !== null) && <td>{size.waist ?? "-"}</td>}
+                                                {product.sizes.some(size => size.hip !== null) && <td>{size.hip ?? "-"}</td>}
+                                                {product.sizes.some(size => size.pant_length !== null) && <td>{size.pant_length ?? "-"}</td>}
+                                                {product.sizes.some(size => size.thigh !== null) && <td>{size.pant_length ?? "-"}</td>}
+                                                {product.sizes.some(size => size.sleev_length !== null) && <td>{size.sleev_length ?? "-"}</td>}
+                                            </tr>
+                                        )
+
+                                    })
+                                )
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <button id="back" className="back material-symbols-outlined" onClick={() => navigate(-1)} >arrow_back <i>Back</i></button>
@@ -243,7 +284,6 @@ const Product = () => {
                                 return (
                                     <div key={index} className={currentProductID === product.pid ? "variant selected" : "variant "} onClick={() => setProductID(product.pid)} style={{ backgroundColor: product.hexcode }}>
                                         <img src={`${BaseUrl.slice(0, -1)}${product.image}`} alt="" />
-                                        <b>{product.color.toUpperCase()}</b>
                                     </div>
                                 )
                             })
@@ -259,6 +299,7 @@ const Product = () => {
                                     )
                                 })
                             }
+                            <span className="material-symbols-outlined sc" onClick={()=> document.getElementById("chart").style.display="flex"}>straighten</span>
                         </div>) : <></>}
                     <button className={auth ? "bn" : "bn dis"} onClick={handlePopup}>Buy Now<span className="material-symbols-outlined">local_mall</span></button><button className={auth ? "atc" : "atc dis"} onClick={handleATC}>Add To Cart<span className="material-symbols-outlined">shopping_cart</span></button>
                 </div>

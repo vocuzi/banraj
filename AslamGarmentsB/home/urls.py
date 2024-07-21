@@ -8,7 +8,7 @@ urlpatterns = [
     path("login/", views.CustomAuthToken.as_view(), name="login"),
     path("signup/", views.register, name="register"),
     path("logout/", views.logout, name="logout"),
-    path("getCat/", views.getCategories, name="getCategories"), 
+    path("getCat/", views.getCategories, name="getCategories"),
     path("checkAuth/", views.checkAuth, name="checkAuth"),
     path("products/", views.ProductListView.as_view(), name="products"),
     path("subscribe/", views.makeSubscription, name="Make Subscription"),
@@ -20,7 +20,9 @@ urlpatterns = [
     path("getCart/", views.get_cart, name="Get Cart"),
     path("updateCart/", views.updateCartItem, name="Update Cart"),
     path("profile/", views.profile, name="Profile"),
-    path("getOrder/",views.getOrder,name='Get Order'),
+    path("getOrder/", views.getOrder, name="Get Order"),
+    path("isWholeSaleUser/", views.isWholeSaleUser, name="Check WholeSale User"),
+    path("getWholeSaleProducts/", views.getWholeSaleProducts, name="Get WholeSale Products"),
 ]
 
 if settings.DEBUG:

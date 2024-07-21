@@ -123,3 +123,15 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Order
         fields = "__all__"
+
+class BIS(serializers.ModelSerializer):
+    product = ProductSerializer()
+    class Meta:
+        model = models.BulkProductItem
+        fields = "__all__"
+
+class BulkProductSerializer(serializers.ModelSerializer):
+    bulk_items = BIS(many=True, read_only=True)
+    class Meta:
+        model = models.BulkProducts
+        fields = ["id", "name", "discription", "marketPrice", "wholeSellPrice", "bulk_items","img"]

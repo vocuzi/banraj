@@ -8,7 +8,7 @@ main {
     flex-wrap: wrap;
 }
 
-.back{
+.back {
     position: fixed;
     width: 3.6vw;
     height: 3.6vw;
@@ -23,20 +23,20 @@ main {
     justify-content: center;
     align-items: center;
     transition: all 0.5s ease;
-}   
+}
 
-.back i{
+.back i {
     font-size: 1.4rem;
     width: 0;
     overflow: hidden;
     transition: all 0.5s ease;
 }
 
-.back:hover{
+.back:hover {
     width: 7vw;
 }
 
-.back:hover i{
+.back:hover i {
     width: 50%;
 }
 
@@ -181,7 +181,7 @@ main {
     padding: 3% 0;
     display: inline-flex;
     gap: 25px;
-    justify-content: space-evenly;
+    justify-content: safe;
     align-items: center;
 }
 
@@ -193,7 +193,7 @@ main {
     gap: 10px;
     align-items: center;
     justify-content: center;
-    border: 3px solid #00000000;
+    border: 5px solid #00000000;
     box-shadow: 0 0 0 0 #000,
         0 0 0 0 #fff;
     border-radius: 5px;
@@ -224,7 +224,7 @@ main {
 .productDetails .variants .variant:hover {
     box-shadow: 4px 4px 0 1px #000000;
     scale: 1.05;
-    border: 3px solid #3c3c3c;
+    border: 5px solid #3c3c3c;
 }
 
 .productDetails .variants .variant:active {
@@ -235,9 +235,9 @@ main {
 
 .productDetails .variants .variant img {
     width: 100%;
-    height: 100%;
+    aspect-ratio: 3/4;
     cursor: pointer;
-    border-radius: 3px 3px 0 0;
+    border-radius: 3px;
 }
 
 .productDetails .variants .variant b {
@@ -250,7 +250,13 @@ main {
     display: flex;
     gap: 20px;
     margin: 20px 0;
-    justify-content: space-evenly;
+    justify-content: safe;
+    align-items: center;
+}
+
+.productDetails .sizes .sc {
+    font-size: 32px;
+    cursor: pointer;
 }
 
 .productDetails .sizes .size {
@@ -330,7 +336,7 @@ main {
 
 .productDetails .atc {
     width: calc(50% - 10%);
-    margin-right:10%;
+    margin-right: 10%;
     border: none;
     padding: 10px;
     border-radius: 0 20px 20px 0;
@@ -355,7 +361,7 @@ main {
     opacity: .7;
 }
 
-.productDetails .dis:hover{
+.productDetails .dis:hover {
     background-color: #b8a900;
 }
 
@@ -373,7 +379,7 @@ main {
     display: none;
 }
 
-.popup .cont{
+.popup .cont {
     width: 50vw;
     height: 60vh;
     padding: 2%;
@@ -385,7 +391,7 @@ main {
     position: relative;
 }
 
-.popup .cont h1{
+.popup .cont h1 {
     width: 100%;
     font-size: 3rem;
     text-align: center;
@@ -393,12 +399,12 @@ main {
     border-radius: 10px;
 }
 
-.popup .cont img{
+.popup .cont img {
     width: 30%;
     object-fit: contain;
 }
 
-.popup .cont .details{
+.popup .cont .details {
     width: 34%;
     border-radius: 1rem;
     /* background-color: #f5feff; */
@@ -407,31 +413,31 @@ main {
     padding: 3%;
 }
 
-.popup .cont .details h3{
+.popup .cont .details h3 {
     width: 60%;
     font-size: 1.6rem;
     display: inline;
 }
 
-.popup .cont .details h3 p{
+.popup .cont .details h3 p {
     display: inline;
     font-size: 1.6rem;
     font-weight: 500;
     margin: 0 10px;
 }
 
-.popup .cont .details .qty{
+.popup .cont .details .qty {
     width: 60%;
-    border:  1px solid black;
+    border: 1px solid black;
     background-color: #000;
     border-radius: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 10px auto ;
+    margin: 10px auto;
 }
 
-.popup .cont .details .qty button{
+.popup .cont .details .qty button {
     width: 30%;
     height: 40px;
     border: none;
@@ -445,21 +451,21 @@ main {
     cursor: pointer;
 }
 
-.popup .cont .details .qty button:hover{
+.popup .cont .details .qty button:hover {
     background-color: #ffb700c3;
 }
 
-.popup .cont .details .qty .pls{
-    border-radius:  100px 0 0 100px ;
+.popup .cont .details .qty .pls {
+    border-radius: 100px 0 0 100px;
     border-right: 1px solid black;
 }
 
-.popup .cont .details .qty .mis{
+.popup .cont .details .qty .mis {
     border-radius: 0 100px 100px 0;
     border-left: 1px solid black;
 }
 
-.popup .cont .details .qty b{
+.popup .cont .details .qty b {
     font-size: 1.4rem;
     font-weight: 500;
     border: 1px solid black;
@@ -469,7 +475,7 @@ main {
     transition: all 0.3s ease;
 }
 
-.popup .cont .buynow{
+.popup .cont .buynow {
     width: 23%;
     height: 80%;
     background-color: #fff;
@@ -483,7 +489,7 @@ main {
     cursor: pointer;
 }
 
-.popup .cont .buynow::after{
+.popup .cont .buynow::after {
     content: "Confirm Order";
     position: absolute;
     display: flex;
@@ -501,17 +507,17 @@ main {
     overflow: hidden;
 }
 
-.popup .cont .buynow:hover::after{
+.popup .cont .buynow:hover::after {
     height: 100%;
     font-size: 2.8rem;
 }
 
-.popup .cont .buynow:hover{
+.popup .cont .buynow:hover {
     padding-top: 20%;
     font-size: 2rem;
 }
 
-.popup .cont .bak{
+.popup .cont .bak {
     display: flex;
     padding: 4%;
     justify-content: center;
@@ -527,6 +533,66 @@ main {
     right: -5%;
 }
 
-.popup .cont .bak:hover{
+.popup .cont .bak:hover {
     transform: rotate(180deg);
+}
+
+.sChart {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    background-color: #00000099;
+    z-index: 1000;
+    display: none;
+    transition: all 0.5s ease;
+}
+
+.sChart .cont {
+    min-width: 400px;
+    max-width: 60%;
+    width: 80%;
+    min-height: 300px;
+    max-height: 60%;
+    position: absolute;
+    padding: 1%;
+    display: flex;
+    border-radius: 5px;
+    justify-content: safe;
+    align-items: center;
+    flex-direction: column;
+    background-color: #fff;
+}
+
+.sChart .cont table,
+.sChart .cont table td,
+.sChart .cont table th {
+    border: 1px solid #000;
+    border-collapse: collapse;
+    padding: 5px;
+    text-align: center;
+}
+
+.sChart .cont table {
+    width: 90%;
+}
+
+.sChart .cont .bak {
+    display: flex;
+    padding: 4%;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    position: absolute;
+    width: 50px;
+    background-color: #fff;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 0 5px -2px #000;
+    top: -12%;
+    right: -4%;
 }

@@ -1,5 +1,8 @@
 {
     "python.analysis.typeCheckingMode": "off",
     "python.analysis.autoImportCompletions": false,
-    "workbench.editor.untitled.labelFormat": "name"
+    "workbench.editor.untitled.labelFormat": "name",
+    "files.autoSave": "afterDelay",
+    "editor.multiCursorModifier": "alt",
+    "editor.wordWrap": "off"
 }

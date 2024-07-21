@@ -14,6 +14,8 @@ from .models import (
     location,
     ProductVariant,
     Size,
+    BulkProductItem,
+    BulkProducts,
     CartItem,
 )
 from rest_framework.authtoken.admin import TokenAdmin
@@ -320,7 +322,25 @@ class CartItemAdmin(admin.ModelAdmin):
             f'<img src="{obj.product.mainImage.image.url}" width="50" height="50" />'
         )
 
+@admin.register(BulkProductItem)
+class BulkProductItemAdmin(admin.ModelAdmin):
+    list_display = ['product', 'bulk_qty']
 
+
+class BulkProductItemInline(admin.TabularInline):
+    model = BulkProductItem
+    extra = 1
+    fields = ('product', 'bulk_qty')
+
+
+@admin.register(BulkProducts)
+class BulkProductsAdmin(admin.ModelAdmin):
+    inlines = [BulkProductItemInline,]
+    list_display = ['name', 'discription',"all_Items"]
+    
+    def all_Items(self, obj):    
+        return " | ".join([f"{item.product.name} ({item.product.product_color}) - {item.bulk_qty}" for item in obj.bulk_items.all()])
+    
 # Custom admin site
 class MyAdminSite(AdminSite):
     site_header = "AG Admin"
