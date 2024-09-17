@@ -15,6 +15,20 @@ html {
   border: 1px solid black;
 }
 
+.metric {
+  text-align: center;
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 0 2px -1px black;
+  transition-duration: 0.5s;
+}
+
+.metric:hover{
+  box-shadow: 0 0 5px -1px black;
+}
+
 body {
   font-family: "Saira Condensed", sans-serif;
   background-color: #e7f3eeaf;
@@ -197,16 +211,16 @@ body {
 }
 
 .header .content img {
-  aspect-ratio: 73/129;
-  display: inline-block;
-  width: 20%;
-  filter: drop-shadow(10px 5px 10px rgba(0, 0, 0, 0.3));
-  transition: all 0.5s;
+  /* aspect-ratio: 73/129; */
+  display: block;
+  width: 100%;
+  filter: drop-shadow(10px 5px 10px rgba(0, 0, 0, 0.3)) ;
+  transition: all 0.5s ease-in-out; 
 }
 
 .header .content img:hover {
   scale: 1.01;
-  filter: drop-shadow(20px 20px 15px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(20px 20px 15px rgba(0, 0, 0, 1));
 }
 
 

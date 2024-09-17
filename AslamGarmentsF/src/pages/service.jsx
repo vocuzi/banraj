@@ -10,12 +10,30 @@ import Navbar from "../components/navbar";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BaseContext } from "../BaseContext";
+import child from '../images/FinishingAreanew1.jpg'
+import child2 from '../images/PRODUCTION-CAPACITY.jpg'
+import child3 from "../images/garment-job-work.jpg"
 
 const Service = () => {
     const navigate = useNavigate();
     const catog = useRef(null);
     const [categories, setCategories] = useState([])
     const { BaseUrl } = useContext(BaseContext);
+    const [img, setImg] = useState(child)
+    const images = [child, child2, child3]
+
+    useEffect(() => {
+        let i = 0;
+        var imag = document.getElementById("headImg");
+        setInterval(() => {
+            if (i === 3) {
+                i = 0;
+            }
+            setImg(images[i])
+            i++;
+        }, 5000)
+    }, [])
+
 
     useEffect(() => {
         console.log(BaseUrl)
@@ -44,7 +62,9 @@ const Service = () => {
             <div className="header">
                 <Navbar page={"service"} />
                 <div className="content">
-                    <div className="lfttxt">
+                <img id="headImg" src={img} alt="header Image" />
+                    
+                    {/* <div className="lfttxt">
                         <h1 className="saira-condensed-bold">Aslam Garments</h1>
                         <p className="saira-condensed-regular">
                             Aslam Garments is a leading manufacturer of garments in Tamil Nadu.
@@ -55,8 +75,7 @@ const Service = () => {
                         </p>
                         <button onClick={() => navigate('/shop/')}>View Products</button>
                         <button onClick={() => catog.current.scrollIntoView({ behavior: "smooth" })}>Category</button>
-                    </div>
-                    <img src={model} alt="Model Images" />
+                    </div> */}
                 </div>
             </div>
             <div className="service">

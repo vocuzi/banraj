@@ -271,14 +271,16 @@ const Shop = (page) => {
                     <button onClick={addFilters}>Add Filters</button>
                 </div>
                 <div className="productCont ">
-                    {products.map((product, index) => (
-                        <div key={index} className="productCard" onClick={() => navigate(`/product/${product.id}`)}>
-                            <img src={product.img} alt={product.name} />
-                            <h3 >{product.name}</h3>
-                            <p style={{ fontSize: '1.2rem', color: '#494949' }}>{product.discription.length > 70 ? (product.discription.slice(0, 70) + "...") : (product.discription)}</p>
-                            <p>₹{product.sellingPrice} <strong>₹{product.marketPrice}</strong></p>
-                        </div>
-                    ))}
+                    { products.length === 0 ? <h1>No Products Found</h1> :
+                        products.map((product, index) => (
+                            <div key={index} className="productCard" onClick={() => navigate(`/product/${product.id}`)}>
+                                <img src={product.img} alt={product.name} />
+                                <h3 >{product.name}</h3>
+                                <p style={{ fontSize: '1.2rem', color: '#494949' }}>{product.discription.length > 70 ? (product.discription.slice(0, 70) + "...") : (product.discription)}</p>
+                                <p>₹{product.sellingPrice} <strong>₹{product.marketPrice}</strong></p>
+                            </div>
+                        ))
+                    }
                 </div>
             </div>
             <Footer />

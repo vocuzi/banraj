@@ -11,6 +11,8 @@ import UserProfile from './pages/profile';
 import Product from './pages/product';
 import Cart from './pages/cart';
 import WholeSale from './pages/wholeSale';
+import PersonalForm from './pages/personalForm';
+import ContactPage from './pages/contact';
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
           <Route path='/product/:pid' element={<Product />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/wholeSale" element={<WholeSale />} />
+          <Route path='/personalForm' element={<PersonalForm />} />
+          <Route path='/contact' element={<ContactPage/>} />
         </Routes>
       </BrowserRouter>
     </BaseProvider>

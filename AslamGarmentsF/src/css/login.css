@@ -1,14 +1,16 @@
 :root {
-    --bgimg: url(../images/login-image-green.png);
+    --bgimg: url(../images/login-image-green.png); 
 }
 
 .bdy {
     width: 100vw;
     height: 100vh;
-    display: flex;
+    display: flex; 
     justify-content: space-around;
     align-items: center;
-    background-image: var(--bgimg);
+    background-image: url(../images/trianglify.io_.png);
+    background-repeat: no-repeat;
+    background-size: cover;
     position: relative;
 }
 
@@ -110,20 +112,24 @@
 @keyframes twist-back {
     0% {
         transform: rotateY(180deg);
+        backdrop-filter: brightness(1);
     }
 
     100% {
         transform: rotateY(0deg);
+        backdrop-filter: brightness(1);
     }
 }
 
 @keyframes twist {
     0% {
         transform: rotateY(180deg);
+        backdrop-filter: brightness(1);
     }
 
     100% {
         transform: rotateY(0deg);
+        backdrop-filter: brightness(1);
     }
 }
 

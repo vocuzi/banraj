@@ -50,6 +50,7 @@ const Login = () => {
     const signup = async () => {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
+        const phone = document.getElementById('phone').value;
         const email = document.getElementById('email').value;
         const confirmpass = document.getElementById('confirmpass').value;
         document.querySelector('.error').style.opacity = '0';
@@ -87,11 +88,13 @@ const Login = () => {
                     const response = await axios.post(`${BaseUrl}signup/`, {
                         username: username,
                         password: password,
-                        email: email
+                        email: email,
+                        phone: phone
+
                     });
                     if (response.data['message'] === 'User Created Successfully') {
                         localStorage.setItem('token', response.data['token']);
-                        navigate(-1);
+                        navigate("/personalForm");
                     }
                     else {
                         console.log(response.data)
@@ -108,7 +111,6 @@ const Login = () => {
                             document.querySelector('.mailError').style.opacity = '1';
                             setEmailError(response.data['message'])
                         }
-
                     }
                 }
                 catch (error) {
@@ -263,18 +265,18 @@ const Login = () => {
                                     <label htmlFor="phone">Phone Number</label>
                                 </div>
                                 <div className="ina ">
-                                    <input type="email" id="email" required onKeyDown={handleKeyPress} placeholder="address@domain.com"/>
+                                    <input type="email" id="email" required onKeyDown={handleKeyPress} placeholder="address@domain.com" />
                                     <label htmlFor="email">Email</label>
                                     <div className="mailError">
                                         <p>{emailerror}</p>
                                     </div>
                                 </div>
                                 <div className="ina">
-                                    <input type="password" id="password" required onKeyDown={handleKeyPress} placeholder="Password"/>
+                                    <input type="password" id="password" required onKeyDown={handleKeyPress} placeholder="Password" />
                                     <label htmlFor="password">Password</label>
                                 </div>
                                 <div className="ina">
-                                    <input type="password" id="confirmpass" required onKeyDown={handleKeyPress} placeholder="Comfirm Password"/>
+                                    <input type="password" id="confirmpass" required onKeyDown={handleKeyPress} placeholder="Comfirm Password" />
                                     <label htmlFor="confirmpass">Confirm Password</label>
                                 </div>
                                 <button onClick={signup} id="btn">Sign-Up</button>

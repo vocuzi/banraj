@@ -1,5 +1,6 @@
 from django import forms
-from django.contrib import admin
+from django.contrib import admin, messages
+from django.shortcuts import redirect
 from django.utils.html import mark_safe
 from .models import (
     Customer,
@@ -22,7 +23,7 @@ from rest_framework.authtoken.admin import TokenAdmin
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django.template.response import TemplateResponse
-from django.urls import path
+from django.urls import path,reverse
 from django.contrib.admin import AdminSite
 
 TokenAdmin.raw_id_fields = ["user"]
@@ -174,7 +175,7 @@ class ProductAdmin(admin.ModelAdmin):
 # Customer admin
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ["user", "pic", "cart_items", "Cart_Item_Images"]
+    list_display = ["profilePic", "user", "cart_items", "Cart_Item_Images","address"]
 
     def Cart_Item_Images(self, obj):
         txt = ""
@@ -185,6 +186,9 @@ class CustomerAdmin(admin.ModelAdmin):
                 else ""
             )
         return mark_safe(txt)
+    
+    def profilePic(self,obj):
+        return mark_safe(f'<img src="{obj.pic.url}" width="100" height="150" />')
 
 
 # Address admin
@@ -222,7 +226,7 @@ class OrderAdmin(admin.ModelAdmin):
         "is_deliveried",
         "total_products",
     ]
-    
+
     list_filter = ["status", "payment"]
 
     actions = [
@@ -255,7 +259,9 @@ class OrderAdmin(admin.ModelAdmin):
     mark_as_pending.short_description = "Mark selected orders as Pending"
     mark_as_confirmed.short_description = "Mark selected orders as Confirmed"
     mark_as_cancelled.short_description = "Mark selected orders as Cancelled"
-    mark_as_out_for_delivery.short_description = "Mark selected orders as Out for delivery"
+    mark_as_out_for_delivery.short_description = (
+        "Mark selected orders as Out for delivery"
+    )
     mark_as_delivered.short_description = "Mark selected orders as Delivered"
 
 
@@ -322,25 +328,34 @@ class CartItemAdmin(admin.ModelAdmin):
             f'<img src="{obj.product.mainImage.image.url}" width="50" height="50" />'
         )
 
+
 @admin.register(BulkProductItem)
 class BulkProductItemAdmin(admin.ModelAdmin):
-    list_display = ['product', 'bulk_qty']
+    list_display = ["product", "bulk_qty"]
 
 
 class BulkProductItemInline(admin.TabularInline):
     model = BulkProductItem
     extra = 1
-    fields = ('product', 'bulk_qty')
+    fields = ("product", "bulk_qty")
 
 
 @admin.register(BulkProducts)
 class BulkProductsAdmin(admin.ModelAdmin):
-    inlines = [BulkProductItemInline,]
-    list_display = ['name', 'discription',"all_Items"]
-    
-    def all_Items(self, obj):    
-        return " | ".join([f"{item.product.name} ({item.product.product_color}) - {item.bulk_qty}" for item in obj.bulk_items.all()])
-    
+    inlines = [
+        BulkProductItemInline,
+    ]
+    list_display = ["name", "discription", "all_Items"]
+
+    def all_Items(self, obj):
+        return " | ".join(
+            [
+                f"{item.product.name} ({item.product.product_color}) - {item.bulk_qty}"
+                for item in obj.bulk_items.all()
+            ]
+        )
+
+
 # Custom admin site
 class MyAdminSite(AdminSite):
     site_header = "AG Admin"
@@ -351,7 +366,12 @@ class MyAdminSite(AdminSite):
         urls = super().get_urls()
         custom_urls = [
             path("", self.admin_view(self.custom_index), name="index"),
+            path("NewOrders/", self.admin_view(self.pending), name="NewOrders"),
+            path("NewOrders/<int:pk>/",self.admin_view(self.check_pending),name="check_pending",),
+            path("NewOrders/<int:pk>/accept/",self.admin_view(self.accept_order),name="AcceptOrder",),
+            path("NewOrders/<int:pk>/reject/",self.admin_view(self.reject_order),name="RejectOrder",),
         ]
+
         return custom_urls + urls
 
     def custom_index(self, request, extra_context=None):
@@ -375,12 +395,55 @@ class MyAdminSite(AdminSite):
                     else 100
                 )
             )
+        pending_orders = Order.objects.filter(status="pending").count()
+        confirmed_orders = Order.objects.filter(status="confirmed").count()
+        shipped_orders = Order.objects.filter(status="shipped").count()
         context = {
             **self.each_context(request),
             "title": self.index_title,
             "app_list": app_list,
+            "pending_orders": pending_orders,
+            "confirmed_orders": confirmed_orders,
+            "shipped_orders": shipped_orders,
         }
         return TemplateResponse(request, "admin/index.html", context)
+
+    def pending(self, request, extra_context=None):
+        pending_orders = Order.objects.filter(status="pending")
+        cont = {
+            **self.each_context(request),
+            "pending_orders": pending_orders,
+        }
+        return TemplateResponse(request, "admin/new_orders.html", cont)
+
+    def check_pending(self, request, pk, extra_context=None):
+        order = Order.objects.get(pk=pk)
+        context = {
+            **self.each_context(request),
+            "title": f"Order {order.id}",
+            "order": order,
+        }
+        return TemplateResponse(request, "admin/new_order_view.html", context)
+
+    def accept_order(self, request, pk, extra_context=None):
+        try:
+            order = Order.objects.get(pk=pk)
+            order.status = "confirmed"  # Update status as needed
+            order.save()
+            messages.success(request, "Order has been accepted.")
+        except Order.DoesNotExist:
+            messages.error(request, "Order not found.")
+        return redirect(f"/admin/NewOrders/{pk}/")
+
+    def reject_order(self, request, pk, extra_context=None):
+        try:
+            order = Order.objects.get(pk=pk)
+            order.status = "cancelled"  # Update status as needed
+            order.save()
+            messages.success(request, "Order has been rejected.")
+        except Order.DoesNotExist:
+            messages.error(request, "Order not found.")
+        return redirect(f"/admin/NewOrders/{pk}/")
 
 
 admin_site = MyAdminSite(name="myadmin")

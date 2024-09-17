@@ -22,7 +22,11 @@ urlpatterns = [
     path("profile/", views.profile, name="Profile"),
     path("getOrder/", views.getOrder, name="Get Order"),
     path("isWholeSaleUser/", views.isWholeSaleUser, name="Check WholeSale User"),
-    path("getWholeSaleProducts/", views.getWholeSaleProducts, name="Get WholeSale Products"),
+    path(
+        "getWholeSaleProducts/",
+        views.getWholeSaleProducts,
+        name="Get WholeSale Products",
+    ),
 ]
 
 if settings.DEBUG:

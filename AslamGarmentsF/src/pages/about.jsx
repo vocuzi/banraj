@@ -1,18 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import aboutUS from '../images/FinishingAreanew1.jpg';
 import model from '../images/model.png';
 import Footer from "../components/footer";
 import Navbar from "../components/navbar";
 import { useNavigate } from "react-router-dom";
+import child from '../images/FinishingAreanew1.jpg'
+import child2 from '../images/PRODUCTION-CAPACITY.jpg'
+import child3 from "../images/garment-job-work.jpg"
+
 
 const About = () => {
     const navigate = useNavigate();
+    const [img, setImg] = useState(child)
+    const images = [child, child2, child3]
+    useEffect(() => {
+        let i = 0;
+        var imag = document.getElementById("headImg");
+        setInterval(() => {
+            if (i === 3) {
+                i = 0;
+            }
+            setImg(images[i])
+            i++;
+        }, 5000)
+    }, [])
     return (
         <body>
             <div class="header">
                 <Navbar page={"about"} />
                 <div class="content">
-                    <div class="lfttxt">
+                <img id="headImg" src={img} alt="header Image" />
+
+                    {/* <div class="lfttxt">
 
                         <h1 className="saira-condensed-bold">About Us</h1>
                         <p className="saira-condensed-regular">
@@ -24,8 +43,7 @@ const About = () => {
                         </p>
                         <button onClick={() => navigate('/shop/')}>View Products</button>
                         <button onClick={() => navigate('/#category')}>Category</button>
-                    </div>
-                    <img src={model} alt="Model Images" />
+                    </div> */}
                 </div>
             </div>
 

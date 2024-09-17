@@ -103,7 +103,10 @@ class Address(models.Model):
         ):
             return True
         return False
-
+    
+    def __str__(self):
+        return f"{self.doorNo}, {self.buildingName}, {self.street}, {self.city}, {self.state}, {self.country}, {self.pincode}, {self.landmark}, {self.location}"
+    
     class Meta:
         verbose_name = "Address"
         verbose_name_plural = "Addresses"
@@ -225,6 +228,8 @@ class Order(models.Model):
         ("pending", "Pending"),
         ("confirmed", "Confirmed"),
         ("cancelled", "Cancelled"),
+        ("packed", "Packed"),
+        ("shipped", "Shipped"),
         ("out_for_delivery", "Out for delivery"),
         ("delivered", "Delivered"),
     ]

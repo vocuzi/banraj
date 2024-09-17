@@ -65,21 +65,20 @@ const Home = () => {
 
     useEffect(() => {
         let i = 0;
-        var imag = document.getElementById("headImg");
         setInterval(() => {
             if (i === 3) {
                 i = 0;
             }
             setImg(images[i])
             i++;
-        }, 5000)
+        },5000)
     }, []) 
 
     return (
         <div>
+                <Navbar page={"home"} />
             <div className="header">
 
-                <Navbar page={"home"} />
 
                 <div className="content">
                     <img id="headImg" src={img} alt="header Image" />
@@ -112,7 +111,7 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className="category " ref={catog} style={{ marginTop: "5%" }} >
+            <div className="category " ref={catog} >
                 <h1>Categories</h1>
                 <div className="txt " data-aos="fade-up" data-aos-anchor-placement="top-center">
                     <h1>Our Products</h1>
@@ -125,7 +124,7 @@ const Home = () => {
                 <div className="cont" >
                     {
                         categories.map((category,index) => (
-                            <div key={category.id} className="card " onClick={() => clickCat(category.id)} data-aos-anchor-placement="top-center" data-aos="fade-up" data-aos-delay={`${(index+1)*200}`}>
+                            <div key={category.id} className="card " onClick={() => clickCat(category.id)} data-aos-anchor-placement="center-bottom" data-aos="fade-up" data-aos-delay={`${(index+1)*200}`}>
                                 <img src={`${BaseUrl.slice(0, -1)}${category.image}`} alt={category.name} />
                                 <h3>{category.name}</h3>
                                 <div className="cross">

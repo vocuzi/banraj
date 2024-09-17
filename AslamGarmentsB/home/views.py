@@ -30,12 +30,13 @@ def register(request):
         if serializer.is_valid():
             if User.objects.filter(email=request.data["email"]).exists():
                 return Response({"message": "Email Already Exists"})
-
+            if models.Address.objects.filter(phone=request.data['phone']).exists():
+                return Response({"message": "Phone Number Already Exists"})
             user = serializer.save()
             group = Group.objects.get(name="Customer")
             user.groups.add(group)
             customer = models.Customer(user=user)
-            address = models.Address(user=customer)
+            address = models.Address(user=customer, phone=request.data["phone"])
             customer.save()
             address.save()
             cont = serializer.data
@@ -302,10 +303,12 @@ def profile(request):
         address.street = request.data["street"]
         address.pincode = request.data["pincode"]
         address.country = request.data["country"]
-        address.landmark = request.data["landmark"]
+        if "landmark" in request.data:
+            address.landmark = request.data["landmark"]
         user.save()
         address.save()
         user.user.save()
+        
 
         if (
             models.User.objects.filter(email=request.data["email"])
@@ -350,8 +353,30 @@ def profile(request):
         user.user.save()
         if not address.is_val:
             return Response({"message": "Invalid"})
-        return Response({"message": "Success"})
-
+        return Response({"message": "Success"}) 
+    
+    if request.method == "PUT":
+        try:
+            user = models.Customer.objects.get(user=request.user)
+            user.user.first_name = request.data["firstname"]
+            user.user.last_name = request.data["lastname"]
+            address = models.Address.objects.get(user=user)
+            address.doorNo = request.data["doorNo"]
+            address.street = request.data["street"]
+            address.city = request.data["city"]
+            address.state = request.data["state"]
+            address.pincode = request.data["pincode"]
+            address.country = request.data["country"]
+            if "landmark" in request.data:
+                address.landmark = request.data["landmark"]
+            if "profilePic" in request.data:
+                user.pic = request.data["profilePic"]
+            user.save()
+            user.user.save()
+            address.save()
+            return Response({"message": "Success"})
+        except:
+            return Response({"message": "Failed"})
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
@@ -377,3 +402,5 @@ def getWholeSaleProducts(request):
         products = models.BulkProducts.objects.all()
         serializer = serializers.BulkProductSerializer(products, many=True) 
         return Response(serializer.data)
+
+
