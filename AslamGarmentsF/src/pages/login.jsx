@@ -108,8 +108,8 @@ const Login = () => {
                             setEmailError(response.data['email']);
                         }
                         else if (response.data['message']) {
-                            document.querySelector('.mailError').style.opacity = '1';
-                            setEmailError(response.data['message'])
+                            document.querySelector('.error').style.opacity = '1';
+                            setError(response.data['message'])
                         }
                     }
                 }
