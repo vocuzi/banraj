@@ -163,9 +163,9 @@ const Shop = (page) => {
             <div id="load" className="loader-wrap">
                 <div className="loader"></div>
             </div>
+                <Navbar page={"shop"} />
             <div className="header">
 
-                <Navbar page={"shop"} />
 
                 <div className="content">
                     <img id="headImg" src={img} alt="header Image" />

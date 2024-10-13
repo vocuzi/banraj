@@ -26,8 +26,8 @@ const About = () => {
     }, [])
     return (
         <body>
-            <div class="header">
                 <Navbar page={"about"} />
+            <div class="header">
                 <div class="content">
                 <img id="headImg" src={img} alt="header Image" />
 
@@ -47,7 +47,7 @@ const About = () => {
                 </div>
             </div>
 
-            <div className="aboutUS" style={{marginTop:'5%'}}>
+            <div className="aboutUS">
                 <div className="lftimg">
                     <img src={aboutUS} alt="AboutUsImage" />
                 </div>

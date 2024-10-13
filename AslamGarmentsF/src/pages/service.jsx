@@ -59,8 +59,8 @@ const Service = () => {
 
     return (
         <body>
-            <div className="header">
                 <Navbar page={"service"} />
+            <div className="header">
                 <div className="content">
                 <img id="headImg" src={img} alt="header Image" />
                     
@@ -121,7 +121,7 @@ const Service = () => {
                 </div>
             </div>
 
-            <div className="category" ref={catog}>
+            <div className="category" ref={catog} style={{marginTop:"0"}}>
                 <div className="txt" >
                     <h1>Our Products</h1>
                     <p>

@@ -59,9 +59,9 @@ const Home = () => {
         navigate('/shop/', { state: { categoryID: catogID } })
     }
 
-    const [img , setImg] = useState(child)
+    const [img, setImg] = useState(child)
 
-    const images = [child,child2,child3]
+    const images = [child, child2, child3]
 
     useEffect(() => {
         let i = 0;
@@ -71,13 +71,28 @@ const Home = () => {
             }
             setImg(images[i])
             i++;
-        },5000)
-    }, []) 
+        }, 5000)
+    }, [])
+
+    const [width, setWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setWidth(window.innerWidth);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup function to remove the event listener
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     return (
         <div>
-                <Navbar page={"home"} />
-            <div className="header">
+            <Navbar page={"home"} />
+            <div className="header" >
 
 
                 <div className="content">
@@ -111,9 +126,26 @@ const Home = () => {
                 </div>
             </div>
 
+            {width < 480 &&
+                <div className="aboutUS" style={{marginTop:"20px"}}>
+
+                    <div className="txt" data-aos="fade-up" data-aos-anchor-placement="center-bottom" style={{ margin: "0 20px" }}>
+                        <h1>About Us</h1>
+                        <p>
+                            Aslam Garments is a leading manufacturer of garments in Tamil Nadu. We
+                            have been in the business for over 20 years and have built a
+                            reputation for quality and reliability. Our products are made from the
+                            finest materials and are designed to last. We offer a wide range of
+                            garments for all age ranged people.
+                        </p>
+                        <button onClick={() => navigate('/about')} style={{ marginLeft: "5%" }}>Read More</button>
+                    </div>
+                </div>
+            }
+
             <div className="category " ref={catog} >
                 <h1>Categories</h1>
-                <div className="txt " data-aos="fade-up" data-aos-anchor-placement="top-center">
+                <div className="txt " data-aos="fade-up" data-aos-anchor-placement="top-bottom">
                     <h1>Our Products</h1>
                     <p>
                         We offer a wide range of garments for all age ranged people. Our all
@@ -121,10 +153,10 @@ const Home = () => {
                     </p>
                     <button onClick={() => catog.current.scrollIntoView({ behavior: "smooth" })}>Explore</button>
                 </div>
-                <div className="cont" >
+                <div className="cont">
                     {
-                        categories.map((category,index) => (
-                            <div key={category.id} className="card " onClick={() => clickCat(category.id)} data-aos-anchor-placement="center-bottom" data-aos="fade-up" data-aos-delay={`${(index+1)*200}`}>
+                        categories.slice(0, 5).map((category, index) => (
+                            <div key={category.id} className="card " onClick={() => clickCat(category.id)} data-aos-anchor-placement="center-bottom" data-aos="fade-up" data-aos-delay={`${(index + 1) * 200}`}>
                                 <img src={`${BaseUrl.slice(0, -1)}${category.image}`} alt={category.name} />
                                 <h3>{category.name}</h3>
                                 <div className="cross">
@@ -137,10 +169,10 @@ const Home = () => {
             </div>
 
             <div className="aboutUS">
-                <div className="lftimg" data-aos="fade-up" data-aos-anchor-placement="top-center">
+                <div className="lftimg" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
                     <img src={aboutUS} alt="AboutUsImage" />
                 </div>
-                <div className="txt" data-aos="fade-up" data-aos-anchor-placement="top-center">
+                <div className="txt" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
                     <h1>About Us</h1>
                     <p>
                         Aslam Garments is a leading manufacturer of garments in Tamil Nadu. We
@@ -152,7 +184,7 @@ const Home = () => {
                     <button onClick={() => navigate('/about')}>Read More</button>
                 </div>
 
-                <div id="carousel" className="snap" data-aos="zoom-in" data-aos-anchor-placement="top-center">
+                <div id="carousel" className="snap" data-aos="zoom-in" data-aos-anchor-placement="top-bottom">
                     <div id="carousel-1" className="cours"></div>
                     <div id="carousel-2" className="cours"></div>
                     <div id="carousel-3" className="cours"></div>

@@ -4,7 +4,7 @@ import React, { createContext } from 'react';
 const BaseContext = createContext();
 
 const BaseProvider = ({ children }) => {
-    const ip = `127.0.0.1`;
+    const ip = `13.127.4.211`;
     const BaseUrl = `http://${ip}:8000/`;
 
     return (
