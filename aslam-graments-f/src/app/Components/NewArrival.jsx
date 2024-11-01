@@ -15,6 +15,8 @@ import product62 from "../assets/img/product-6-2.jpg"
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, EffectCoverflow } from 'swiper/modules';
 import ProductCard from "./ProductCard"
+import { useEffect, useState } from "react"
+import useWindowDimensions from "../utils/getDimentions"
 
 export default function NewArrival() {
 
@@ -87,13 +89,14 @@ export default function NewArrival() {
     },
   ]
 
-  const w = window.innerWidth;
-  const slides = w >= 1400 ? 4 : w >= 1200 ? 3 : w >= 992 ? 2.5 : w >= 768 ? 2 : w >= 576 ? 1.5 : w >= 350 ? 1.2 : 1;
-  const sb = w >= 1400 ? 30 : w >= 1200 ? 35 : w >= 992 ? 40 : w >= 768 ? 40 : w >= 576 ? 30 : w >= 350 ? 40 : 10;
-  const rotate = w >= 1400 ? 30 : w >= 1200 ? 40 : w >= 992 ? 50 : w >= 768 ? 110 : w >= 576 ? 120 : w >= 350 ? 150 : 0;
-  const depth = w >= 1400 ? 100 : w >= 1200 ? 150 : w >= 992 ? 180 : w >= 768 ? 220 : w >= 576 ? 240 : w >= 350 ? 300 : 0;
-  const stretch = w >= 1400 ? 10 : w >= 1200 ? 10 : w >= 992 ? 20 : w >= 768 ? 25 : w >= 576 ? 10 : w >= 350 ? 0 : 0;
-  const shadow = w >= 1400 ? false : w >= 1200 ? false : w >= 992 ? false : w >= 768 ? true : w >= 576 ? true : w >= 350 ? true : false;
+  const { width, height } = useWindowDimensions();
+
+  const slides = width >= 1400 ? 4 : width >= 1200 ? 3 : width >= 992 ? 2.5 : width >= 768 ? 2 : width >= 576 ? 1.5 : width >= 350 ? 1.2 : 1;
+  const sb = width >= 1400 ? 30 : width >= 1200 ? 35 : width >= 992 ? 40 : width >= 768 ? 40 : width >= 576 ? 30 : width >= 350 ? 40 : 10;
+  const rotate = width >= 1400 ? 30 : width >= 1200 ? 40 : width >= 992 ? 50 : width >= 768 ? 110 : width >= 576 ? 120 : width >= 350 ? 150 : 0;
+  const depth = width >= 1400 ? 100 : width >= 1200 ? 150 : width >= 992 ? 180 : width >= 768 ? 220 : width >= 576 ? 240 : width >= 350 ? 300 : 0;
+  const stretch = width >= 1400 ? 10 : width >= 1200 ? 10 : width >= 992 ? 20 : width >= 768 ? 25 : width >= 576 ? 10 : width >= 350 ? 0 : 0;
+  const shadow = width >= 1400 ? false : width >= 1200 ? false : width >= 992 ? false : width >= 768 ? true : width >= 576 ? true : width >= 350 ? true : false;
 
   return (
     <section className="new__arrivals container section">
@@ -136,69 +139,6 @@ export default function NewArrival() {
         </div>
       </Swiper>
 
-      {/* <div className="new__container swiper">
-        <div className="swiper-wrapper">
-          <div className="product__item swiper-slide">
-            <div className="product__banner">
-              <a href="details.html" className="product__images">
-                <img
-                  src="assets/img/product-1-1.jpg"
-                  alt=""
-                  className="product__img default"
-                />
-                <img
-                  src="assets/img/product-1-2.jpg"
-                  alt=""
-                  className="product__img hover"
-                />
-              </a>
-              <div className="product__actions">
-                <a href="#" className="action__btn" aria-label="Quick View">
-                  <i className="fi fi-rs-eye"></i>
-                </a>
-                <a href="#" className="action__btn" aria-label="Add to Wishlist">
-                  <i className="fi fi-rs-heart"></i>
-                </a>
-                <a href="#" className="action__btn" aria-label="Compare">
-                  <i className="fi fi-rs-shuffle"></i>
-                </a>
-              </div>
-              <div className="product__badge light-pink">Hot</div>
-            </div>
-            <div className="product__content">
-              <span className="product__category">Clothing</span>
-              <a href="details.html">
-                <h3 className="product__title">Colorful Pattern Shirts</h3>
-              </a>
-              <div className="product__rating">
-                <i className="fi fi-rs-star"></i>
-                <i className="fi fi-rs-star"></i>
-                <i className="fi fi-rs-star"></i>
-                <i className="fi fi-rs-star"></i>
-                <i className="fi fi-rs-star"></i>
-              </div>
-              <div className="product__price flex">
-                <span className="new__price">$238.85</span>
-                <span className="old__price">$245.8</span>
-              </div>
-              <a
-                href="#"
-                className="action__btn cart__btn"
-                aria-label="Add To Cart"
-              >
-                <i className="fi fi-rs-shopping-bag-add"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div className="swiper-button-prev">
-          <i className="fi fi-rs-angle-left"></i>
-        </div>
-        <div className="swiper-button-next">
-          <i className="fi fi-rs-angle-right"></i>
-        </div>
-      </div> */}
     </section>
   )
 }
