@@ -8,7 +8,7 @@ import cart from "../assets/img/icon-cart.svg";
 import search from "../assets/img/search.png";
 import burger from "../assets/img/menu-burger.svg";
 
-const Navbar = () => {
+const Navbar = ({page}) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => {
@@ -17,8 +17,8 @@ const Navbar = () => {
 
     // Define your navigation items here
     const navItems = [
-        { href: "index.html", label: "Home", isActive: true },
-        { href: "shop.html", label: "Shop" },
+        { href: "index.html", label: "Home"},
+        { href: "/shop", label: "Shop" },
         { href: "accounts.html", label: "My Account" },
         { href: "compare.html", label: "Compare" },
         { href: "login-register.html", label: "Login" },
@@ -41,8 +41,8 @@ const Navbar = () => {
                 </div>
             </div>
 
-            <nav className="nav container">
-                <a href="index.html" className="nav__logo">
+            <nav className="nav container ">
+                <a href="/" className="nav__logo">
                     <Image
                         className="nav__logo-img"
                         src={logo}
@@ -61,7 +61,7 @@ const Navbar = () => {
                     <ul className="nav__list">
                         {navItems.map((item, index) => (
                             <li className="nav__item" key={index}>
-                                <a href={item.href} className={`nav__link ${item.isActive ? "active-link" : ""}`}>
+                                <a href={item.href} className={`nav__link ${page===item.label ? "active-link" : ""}`} onClick={()=>setActive(item.label)} >
                                     {item.label}
                                 </a>
                             </li>

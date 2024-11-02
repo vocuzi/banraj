@@ -1,7 +1,7 @@
-import Navbar from "./Components/Navbar"
-import FootBar from "./Components/footer"
+// import Navbar from "./Components/Navbar"
+// import FootBar from "./Components/footer"
 import "./globals.css"
-import 'swiper/swiper-bundle.css';
+import 'swiper/swiper-bundle.css'; 
 // import "./assets/js/main.js"
 
 export const metadata = {
@@ -18,17 +18,11 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
           href="https://cdn-uicons.flaticon.com/2.0.0/uicons-regular-straight/css/uicons-regular-straight.css"
         />
-
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-        />
-
       </head>
       <body>
-        <Navbar/>
+        {/* <Navbar page={"Home"}/> */}
         {children}
-        <FootBar/>
+        {/* <FootBar/> */}
       </body>
     </html>
   )

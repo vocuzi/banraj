@@ -9,6 +9,7 @@ import category8 from "../assets/img/category-8.jpg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from 'swiper/modules';
 import Image from "next/image";
+import "../globals.css"
 
 
 export default function Categories () {
@@ -55,10 +56,10 @@ export default function Categories () {
           ))}
           </div>
           <div className="swiper-button-prev">
-            {/* <i className="fi fi-rs-angle-left"></i> */}
+            <i className="fi fi-rs-angle-left"></i>
           </div>
           <div className="swiper-button-next">
-            {/* <i className="fi fi-rs-angle-right"></i> */}
+            <i className="fi fi-rs-angle-right"></i>
           </div>
         </Swiper>
       </section>

@@ -10,10 +10,15 @@ import DealSection from "./Components/DealsSH";
 import NewsLetter from "./Components/NewsLetterSH";
 import logo from "./assets/img/logo.png";
 import NewArrival from "./Components/NewArrival";
+import ShowCase from "./Components/ShowCase";
+import Navbar from "./Components/Navbar";
+import FootBar from "./Components/footer";
 
 export default function Home() {
 
   return (
+    <>
+    <Navbar page={"Home"}/>
     <main className="main">
       <section className="home section--lg">
         <div className="home__container container grid">
@@ -25,7 +30,7 @@ export default function Home() {
             <p className="home__description">
               Save more from buying products directly from the manufacturers
             </p>
-            <a href="shop.html" className="btn">Shop Now</a>
+            <a href="/shop" className="btn">Shop Now</a>
           </div>
           <Image src={logo} className="home__img" alt="hats" priority />
         </div>
@@ -34,7 +39,10 @@ export default function Home() {
       <ProductSection/>
       <DealSection/>
       <NewArrival/>
+      <ShowCase/>
       <NewsLetter/>
     </main>
+    <FootBar/>
+    </>
   );
 }
