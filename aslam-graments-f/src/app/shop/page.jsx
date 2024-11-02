@@ -1,5 +1,7 @@
 "use client"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
+import 'aos/dist/aos.css'; // Import AOS CSS
+import AOS from 'aos';
 import product11 from "../assets/img/product-1-1.jpg"
 import product12 from "../assets/img/product-1-2.jpg"
 import product21 from "../assets/img/product-2-1.jpg"
@@ -15,9 +17,18 @@ import product62 from "../assets/img/product-6-2.jpg"
 import ProductCard from "../Components/ProductCard"
 import Navbar from "../Components/Navbar"
 import FootBar from "../Components/footer"
+import useWindowDimensions from "../utils/getDimentions"
+import NewsLetter from "../Components/NewsLetterSH"
 
 
 export default function Shop() {
+
+    useEffect(() => {
+        AOS.init({duration:500});
+      }, []);
+
+    const {width,height} = useWindowDimensions();
+
     const products = [
         {
             img1: product11,
@@ -417,12 +428,15 @@ export default function Shop() {
         },
     ]
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 2; // Adjust as necessary
+    const itemsPerPage = width >= 1400 ? 32 : width >= 1200 ? 24 : width >= 992 ? 18 : width >= 768 ? 16 : width >= 576 ? 12 : width >= 350 ? 10 : 10;
     const totalPages = Math.ceil(products.length / itemsPerPage);
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
+    useEffect(()=>{
+        document.title="Shop Page"
+    },[])
 
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentProducts = products.slice(startIndex, startIndex + itemsPerPage);
@@ -445,13 +459,14 @@ export default function Shop() {
                             <ProductCard key={index} product={product} />
                         ))}
                     </div>
-                    <Pagination 
-                        totalPages={totalPages} 
-                        currentPage={currentPage} 
-                        visiblePages={3} 
-                        onPageChange={handlePageChange} 
+                    <Pagination
+                        totalPages={totalPages}
+                        currentPage={currentPage}
+                        visiblePages={3}
+                        onPageChange={handlePageChange}
                     />
                 </section>
+                <NewsLetter/>
             </main>
             <FootBar />
         </>
@@ -474,9 +489,9 @@ const Pagination = ({ totalPages, currentPage, visiblePages, onPageChange }) => 
             {/* Show left arrow only if not on the first page */}
             {currentPage > 1 && (
                 <li>
-                    <a 
-                        href="#" 
-                        className="pagination__link iconr" 
+                    <a
+                        href="#"
+                        className="pagination__link iconr"
                         onClick={(e) => { e.preventDefault(); onPageChange(currentPage - 1); }}
                     >
                         <i className="fi-rs-angle-double-small-left"></i>
@@ -489,9 +504,9 @@ const Pagination = ({ totalPages, currentPage, visiblePages, onPageChange }) => 
 
             {paginationItems.map((item) => (
                 <li key={item}>
-                    <a 
-                        href="#" 
-                        className={`pagination__link ${item === currentPage ? 'active' : ''}`} 
+                    <a
+                        href="#"
+                        className={`pagination__link ${item === currentPage ? 'active' : ''}`}
                         onClick={(e) => { e.preventDefault(); onPageChange(item); }}
                     >
                         {item < 10 ? `0${item}` : item}
@@ -505,9 +520,9 @@ const Pagination = ({ totalPages, currentPage, visiblePages, onPageChange }) => 
             {/* Show right arrow only if not on the last page */}
             {currentPage < totalPages && (
                 <li>
-                    <a 
-                        href="#" 
-                        className="pagination__link iconl" 
+                    <a
+                        href="#"
+                        className="pagination__link iconl"
                         onClick={(e) => { e.preventDefault(); onPageChange(currentPage + 1); }}
                     >
                         <i className="fi-rs-angle-double-small-right"></i>

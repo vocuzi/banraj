@@ -17,7 +17,7 @@ const Navbar = ({page}) => {
 
     // Define your navigation items here
     const navItems = [
-        { href: "index.html", label: "Home"},
+        { href: "/", label: "Home"},
         { href: "/shop", label: "Shop" },
         { href: "accounts.html", label: "My Account" },
         { href: "compare.html", label: "Compare" },
@@ -44,6 +44,7 @@ const Navbar = ({page}) => {
             <nav className="nav container ">
                 <a href="/" className="nav__logo">
                     <Image
+                    data-aos="fade-right"
                         className="nav__logo-img"
                         src={logo}
                         alt="website logo"
@@ -51,7 +52,7 @@ const Navbar = ({page}) => {
                 </a>
                 <div className={`nav__menu ${isMenuOpen ? "show-menu" : ""}`} id="nav-menu">
                     <div className="nav__menu-top">
-                        <a href="index.html" className="nav__menu-logo">
+                        <a href="/" className="nav__menu-logo">
                             <Image src={logo} alt=""/>
                         </a>
                         <div className="nav__close" onClick={toggleMenu}>
@@ -60,14 +61,14 @@ const Navbar = ({page}) => {
                     </div>
                     <ul className="nav__list">
                         {navItems.map((item, index) => (
-                            <li className="nav__item" key={index}>
+                            <li className="nav__item" key={index} data-aos="zoom-in" data-aos-delay={(index*50)}>
                                 <a href={item.href} className={`nav__link ${page===item.label ? "active-link" : ""}`} onClick={()=>setActive(item.label)} >
                                     {item.label}
                                 </a>
                             </li>
                         ))}
                     </ul>
-                    <div className="header__search">
+                    <div className="header__search" data-aos="zoom-in">
                         <input
                             type="text"
                             placeholder="Search For Items..."
@@ -79,15 +80,15 @@ const Navbar = ({page}) => {
                     </div>
                 </div>
                 <div className="header__user-actions">
-                    <a href="wishlist.html" className="header__action-btn" title="Wishlist">
+                    <a href="wishlist" className="header__action-btn" title="Wishlist" data-aos="zoom-in-down" data-aos-delay="50">
                         <Image src={heart} alt="" />
                         <span className="count">3</span>
                     </a>
-                    <a href="cart.html" className="header__action-btn" title="Cart">
+                    <a href="cart" className="header__action-btn" title="Cart" data-aos="zoom-in-down" data-aos-delay="100">
                         <Image src={cart} alt="" />
-                        <span className="count">3</span>
+                        <span className="count">2</span>
                     </a>
-                    <div className="header__action-btn nav__toggle" id="nav-toggle" onClick={toggleMenu}>
+                    <div className="header__action-btn nav__toggle" id="nav-toggle" onClick={toggleMenu} data-aos="zoom-in-down" data-aos-delay="150">
                         <Image src={burger} alt=""/>
                     </div>
                 </div>

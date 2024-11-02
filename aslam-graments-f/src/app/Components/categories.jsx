@@ -25,7 +25,7 @@ export default function Categories () {
       ];
     return (
         <section className="categories container section">
-        <h3 className="section__title"><span>Popular</span> Categories</h3>
+        <h3 className="section__title" data-aos="fade-right"><span>Popular</span> Categories</h3>
         <Swiper
         className="categories__container swiper"
           spaceBetween={20}
@@ -47,18 +47,18 @@ export default function Categories () {
           <div className="swiper-wrapper">
 
           {categories.map((category, index) => (
-            <SwiperSlide key={index} virtualIndex={index}>
-              <a href="shop.html" className="category__item swiper-slide">
+            <SwiperSlide key={index} virtualIndex={index} >
+              <a href="/shop" className="category__item swiper-slide" data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-delay={index*150}>
                 <Image src={category.src} alt={category.alt} className="category__img" />
                 <h3 className="category__title">{category.name}</h3>
               </a>
             </SwiperSlide>
           ))}
           </div>
-          <div className="swiper-button-prev">
+          <div className="swiper-button-prev" data-aos="fade-left">
             <i className="fi fi-rs-angle-left"></i>
           </div>
-          <div className="swiper-button-next">
+          <div className="swiper-button-next" data-aos="fade-right">
             <i className="fi fi-rs-angle-right"></i>
           </div>
         </Swiper>

@@ -101,8 +101,8 @@ export default function ProductSection() {
       <div className="tab__items">
         <div className="tab__item active-tab" id="featured">
           <div className="products__container grid">
-            {products.filter((product,index)=>(product.type === currentType)).map((product, index) => (
-              <ProductCard product={product} key={index} />
+            {products.filter((product)=>(product.type === currentType)).map((product, index) => (
+              <ProductCard product={product} key={index}/>
             ))}
           </div>
         </div>
