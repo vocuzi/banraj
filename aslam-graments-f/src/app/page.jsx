@@ -13,6 +13,7 @@ import NewArrival from "./Components/NewArrival";
 import ShowCase from "./Components/ShowCase";
 import Navbar from "./Components/Navbar";
 import FootBar from "./Components/footer";
+import "./globals.css";
 
 export default function Home() {
 
