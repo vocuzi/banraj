@@ -20,6 +20,7 @@ import avatar3 from "@/app/assets/img/avatar-3.jpg"
 import { useState, useEffect } from "react";
 import NewsLetter from "@/app/Components/NewsLetterSH";
 import ProductCard from "@/app/Components/ProductCard";
+import Link from "next/link";
 
 export default function ProductPage() {
 
@@ -164,7 +165,7 @@ export default function ProductPage() {
       <main className="main">
         <section className="breadcrumb">
           <ul className="breadcrumb__list flex container">
-            <li><a href="index.html" className="breadcrumb__link">Home</a></li>
+            <li><Link href="/" className="breadcrumb__link">Home</Link></li>
             <li><span className="breadcrumb__link"></span>  〉</li>
             <li><span className="breadcrumb__link">Fashion</span></li>
             <li><span className="breadcrumb__link"></span>  〉</li>
@@ -274,15 +275,15 @@ export default function ProductPage() {
                   <tbody>
                     <tr>
                       <th>Stand Up</th>
-                      <td>35" L x 24"W x 37-45"H(front to back wheel)</td>
+                      <td>35&quot; L x 24&quot;W x 37-45&quot;H(front to back wheel)</td>
                     </tr>
                     <tr>
                       <th>Folded (w/o wheels)</th>
-                      <td>32.5"L x 18.5"W x 16.5"H</td>
+                      <td>32.5&quot;L x 18.5&quot;W x 16.5&quot;H</td>
                     </tr>
                     <tr>
                       <th>Folded (w/o wheels)</th>
-                      <td>32.5"L x 24"W x 18.5"H</td>
+                      <td>32.5&quot;L x 24&quot;W x 18.5&quot;H</td>
                     </tr>
                     <tr>
                       <th>Door Pass THrough</th>
@@ -310,7 +311,7 @@ export default function ProductPage() {
                     </tr>
                     <tr>
                       <th>Wheels</th>
-                      <td>12" air / wide track slick tread</td>
+                      <td>12&quot; air / wide track slick tread</td>
                     </tr>
                     <tr>
                       <th>Seat back height</th>
@@ -318,7 +319,7 @@ export default function ProductPage() {
                     </tr>
                     <tr>
                       <th>Head Room(inside canopy)</th>
-                      <td>25"</td>
+                      <td>25&quot;</td>
                     </tr>
                     <tr>
                       <th>Color</th>

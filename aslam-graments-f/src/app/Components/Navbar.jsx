@@ -7,6 +7,7 @@ import heart from "../assets/img/icon-heart.svg";
 import cart from "../assets/img/icon-cart.svg";
 import search from "../assets/img/search.png";
 import burger from "../assets/img/menu-burger.svg";
+import Link from "next/link";
 
 const Navbar = ({page}) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,26 +36,26 @@ const Navbar = ({page}) => {
                     <p className="header__alert-news">
                         Super Values Deals - Save more coupons
                     </p>
-                    <a href="login-register.html" className="header__top-action">
+                    <Link href="login-register.html" className="header__top-action">
                         Log In / Sign Up
-                    </a>
+                    </Link>
                 </div>
             </div>
 
             <nav className="nav container ">
-                <a href="/" className="nav__logo">
+                <Link href="/" className="nav__logo">
                     <Image
                     data-aos="fade-right"
                         className="nav__logo-img"
                         src={logo}
                         alt="website logo"
                     />
-                </a>
+                </Link>
                 <div className={`nav__menu ${isMenuOpen ? "show-menu" : ""}`} id="nav-menu">
                     <div className="nav__menu-top">
-                        <a href="/" className="nav__menu-logo">
+                        <Link href="/" className="nav__menu-logo">
                             <Image src={logo} alt=""/>
-                        </a>
+                        </Link>
                         <div className="nav__close" onClick={toggleMenu}>
                             <i className="fi fi-rs-cross-small"></i>
                         </div>
@@ -62,9 +63,9 @@ const Navbar = ({page}) => {
                     <ul className="nav__list">
                         {navItems.map((item, index) => (
                             <li className="nav__item" key={index} data-aos="zoom-in" data-aos-delay={(index*50)}>
-                                <a href={item.href} className={`nav__link ${page===item.label ? "active-link" : ""}`} onClick={()=>setActive(item.label)} >
+                                <Link href={item.href} className={`nav__link ${page===item.label ? "active-link" : ""}`} onClick={()=>setActive(item.label)} >
                                     {item.label}
-                                </a>
+                                </Link>
                             </li>
                         ))}
                     </ul>
@@ -80,14 +81,14 @@ const Navbar = ({page}) => {
                     </div>
                 </div>
                 <div className="header__user-actions">
-                    <a href="wishlist" className="header__action-btn" title="Wishlist" data-aos="zoom-in-down" data-aos-delay="50">
+                    <Link href="wishlist" className="header__action-btn" title="Wishlist" data-aos="zoom-in-down" data-aos-delay="50">
                         <Image src={heart} alt="" />
                         <span className="count">3</span>
-                    </a>
-                    <a href="cart" className="header__action-btn" title="Cart" data-aos="zoom-in-down" data-aos-delay="100">
+                    </Link>
+                    <Link href="cart" className="header__action-btn" title="Cart" data-aos="zoom-in-down" data-aos-delay="100">
                         <Image src={cart} alt="" />
                         <span className="count">2</span>
-                    </a>
+                    </Link>
                     <div className="header__action-btn nav__toggle" id="nav-toggle" onClick={toggleMenu} data-aos="zoom-in-down" data-aos-delay="150">
                         <Image src={burger} alt=""/>
                     </div>

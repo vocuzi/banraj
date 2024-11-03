@@ -8,6 +8,7 @@ import product41 from "@/app/assets/img/product-4-1.jpg";
 import product42 from "@/app/assets/img/product-4-2.jpg";
 import product51 from "@/app/assets/img/product-5-1.jpg";
 import Image from "next/image";
+import Link from "next/link";
 
 
 export default function WishlistPage() {
@@ -44,7 +45,7 @@ export default function WishlistPage() {
       <main className="main">
         <section className="breadcrumb">
           <ul className="breadcrumb__list flex container">
-            <li><a href="/" className="breadcrumb__link">Home</a></li>
+            <li><Link href="/" className="breadcrumb__link">Home</Link></li>
             <li><span className="breadcrumb__link">  〉</span></li>
             <li><span className="breadcrumb__link">Shop</span></li>
             <li><span className="breadcrumb__link">  〉</span></li>
