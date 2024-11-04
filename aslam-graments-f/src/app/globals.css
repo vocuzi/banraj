@@ -530,7 +530,12 @@ tr:hover {
 
 .swiper-button-next,
 .swiper-button-prev {
-  top: -1.875rem;
+  /* top: 0; */
+  top: 7%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
   background-color: var(--first-color-alt);
   border: 1px solid var(--border-color);
   width: 30px;
@@ -542,6 +547,7 @@ tr:hover {
   -moz-border-radius: 50%;
   -ms-border-radius: 50%;
   -o-border-radius: 50%;
+  cursor: pointer;
 }
 
 .swiper-button-prev {
@@ -940,6 +946,7 @@ tr:hover {
 /*=============== NEW ARRIVALS ===============*/
 .new__arrivals {
   overflow: hidden;
+  position: relative;
 }
 
 /*=============== SHOWCASE ===============*/
@@ -1527,6 +1534,7 @@ tr:hover {
 .table__trash {
   color: var(--text-color-light);
   cursor: pointer;
+  all: unset;
 }
 
 .table__trash:hover {

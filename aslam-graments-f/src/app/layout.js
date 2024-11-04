@@ -1,7 +1,7 @@
 // import Navbar from "./Components/Navbar"
 // import FootBar from "./Components/footer"
 import "./globals.css"
-import 'swiper/swiper-bundle.css'; 
+import 'swiper/css'; 
 // import "./assets/js/main.js"
 
 export const metadata = {

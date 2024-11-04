@@ -63,7 +63,7 @@ const Navbar = ({page}) => {
                     <ul className="nav__list">
                         {navItems.map((item, index) => (
                             <li className="nav__item" key={index} data-aos="zoom-in" data-aos-delay={(index*50)}>
-                                <Link href={item.href} className={`nav__link ${page===item.label ? "active-link" : ""}`} onClick={()=>setActive(item.label)} >
+                                <Link href={item.href} className={`nav__link ${page===item.label ? "active-link" : ""}`} >
                                     {item.label}
                                 </Link>
                             </li>
@@ -81,11 +81,11 @@ const Navbar = ({page}) => {
                     </div>
                 </div>
                 <div className="header__user-actions">
-                    <Link href="wishlist" className="header__action-btn" title="Wishlist" data-aos="zoom-in-down" data-aos-delay="50">
+                    <Link href="/shop/wishlist" className="header__action-btn" title="Wishlist" data-aos="zoom-in-down" data-aos-delay="50">
                         <Image src={heart} alt="" />
                         <span className="count">3</span>
                     </Link>
-                    <Link href="cart" className="header__action-btn" title="Cart" data-aos="zoom-in-down" data-aos-delay="100">
+                    <Link href="/shop/cart" className="header__action-btn" title="Cart" data-aos="zoom-in-down" data-aos-delay="100">
                         <Image src={cart} alt="" />
                         <span className="count">2</span>
                     </Link>

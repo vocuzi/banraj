@@ -429,8 +429,19 @@ export default function Shop() {
         },
     ]
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = width >= 1400 ? 32 : width >= 1200 ? 24 : width >= 992 ? 18 : width >= 768 ? 16 : width >= 576 ? 12 : width >= 350 ? 10 : 10;
-    const totalPages = Math.ceil(products.length / itemsPerPage);
+    const [itemsPerPage, setItemsPerPage] = useState(10); // Default value
+    const totalPages = Math.ceil(products.length / itemsPerPage); 
+    useEffect(() => {
+        const calculateItemsPerPage = () => {
+            if (width >= 1400) return 32;
+            if (width >= 1200) return 24;
+            if (width >= 992) return 18;
+            if (width >= 768) return 16;
+            if (width >= 576) return 12;
+            return 10; // Fallback for small screens
+        };
+        setItemsPerPage(calculateItemsPerPage());
+    }, [width]);
 
     const handlePageChange = (page) => {
         setCurrentPage(page);

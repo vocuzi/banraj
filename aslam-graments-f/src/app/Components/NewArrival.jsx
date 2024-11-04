@@ -112,7 +112,7 @@ export default function NewArrival() {
           depth: depth,
           modifier: 1,
           slideShadows: shadow,
-          scale:.9,
+          scale: .9,
         }}
         speed={600}
         centeredSlides
@@ -132,16 +132,15 @@ export default function NewArrival() {
           ))}
         </div>
 
-        <div className="swiper-button-prev">
-          <i className="fi fi-rs-angle-left"></i>
-        </div>
-        <div className="swiper-button-next">
-          <i className="fi fi-rs-angle-right"></i>
-        </div>
-          <div className="swiper-button-prev lft-arrow ">〈 </div>
-          <div className="swiper-button-next rit-arrow "> 〉</div>
+        {/* <div className="swiper-button-prev lft-arrow ">〈 </div> */}
+        {/* <div className="swiper-button-next rit-arrow "> 〉</div> */}
       </Swiper>
-
+      <div className="swiper-button-prev" data-aos="fade-left">
+        <i className="fi fi-rs-angle-left"></i>
+      </div>
+      <div className="swiper-button-next" data-aos="fade-right">
+        <i className="fi fi-rs-angle-right"></i>
+      </div>
     </section>
   )
 }
