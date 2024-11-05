@@ -1,0 +1,14 @@
+@media screen and (max-width: 576px) {
+    .account__tabs {
+        display: block;
+        width: 100%;
+    }
+    .account__tabs p {
+        display: inline-block;
+        width: 20%;
+        text-align: center;
+    }
+    .account__tabs p b{
+        display: none;
+    }
+}

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /*=============== GOOGLE FONTS ===============*/
-@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Spartan:wght@400;500;600;700&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Spartan:wght@400;500;600;700&display=swap"); */
 
 :root {
   --header-height: 4rem;
@@ -35,9 +35,9 @@
   /* Slightly Lighter Grey for alt borders */
 
   /*========== Font and typography ==========*/
-  --body-font: "Lato", sans-serif;
+  --body-font: "Lexend", sans-serif;
   /* Main font */
-  --second-font: "Spartan", sans-serif;
+  --second-font: "League Spartan", sans-serif;
   /* Second font */
   --big-font-size: 3.5rem;
   --h1-font-size: 2.75rem;

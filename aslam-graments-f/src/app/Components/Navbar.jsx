@@ -21,7 +21,7 @@ const Navbar = ({page}) => {
     const navItems = [
         { href: "/", label: "Home"},
         { href: "/shop", label: "Shop" },
-        { href: "accounts.html", label: "My Account" },
+        { href: "/profile", label: "My Account" },
         { href: "/shop/compare", label: "Compare" },
         { href: "/shop/cart", label: "Cart" },
     ];

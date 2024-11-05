@@ -18,6 +18,7 @@ import "./globals.css";
 export default function Home() {
 
   useEffect(() => {
+    document.title = "Renz Trending - Home";
     AOS.init({duration:500});
   }, []);
 
