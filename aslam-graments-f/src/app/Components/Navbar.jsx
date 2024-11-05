@@ -4,7 +4,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import logo from "../assets/img/logo.png";
 import heart from "../assets/img/icon-heart.svg";
-import cart from "../assets/img/icon-cart.svg";
+import profile from "../assets/img/user.svg";
+// import cart from "../assets/img/icon-cart.svg";
 import search from "../assets/img/search.png";
 import burger from "../assets/img/menu-burger.svg";
 import Link from "next/link";
@@ -21,8 +22,8 @@ const Navbar = ({page}) => {
         { href: "/", label: "Home"},
         { href: "/shop", label: "Shop" },
         { href: "accounts.html", label: "My Account" },
-        { href: "compare.html", label: "Compare" },
-        { href: "login-register.html", label: "Login" },
+        { href: "/shop/compare", label: "Compare" },
+        { href: "/shop/cart", label: "Cart" },
     ];
 
     return (
@@ -85,10 +86,11 @@ const Navbar = ({page}) => {
                         <Image src={heart} alt="" />
                         <span className="count">3</span>
                     </Link>
-                    <Link href="/shop/cart" className="header__action-btn" title="Cart" data-aos="zoom-in-down" data-aos-delay="100">
-                        <Image src={cart} alt="" />
-                        <span className="count">2</span>
+                    <Link href="/shop/cart" className="header__action-btn" title="Login" data-aos="zoom-in-down" data-aos-delay="100">
+                        <Image src={profile} alt="" />
+                        {/* <span className="count">2</span> */}
                     </Link>
+
                     <div className="header__action-btn nav__toggle" id="nav-toggle" onClick={toggleMenu} data-aos="zoom-in-down" data-aos-delay="150">
                         <Image src={burger} alt=""/>
                     </div>

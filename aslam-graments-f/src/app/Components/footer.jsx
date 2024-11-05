@@ -6,6 +6,7 @@ import instagram from "../assets/img/icon-instagram.svg";
 import pintrest from "../assets/img/icon-pinterest.svg";
 import youtube from "../assets/img/icon-youtube.svg";
 import payMethod from "../assets/img/payment-method.png";
+import Link from "next/link";
 
 const FootBar = () => {
     const socialLinks = [
@@ -36,13 +37,13 @@ const FootBar = () => {
                         <h4 className="footer__subtitle">Follow Me</h4>
                         <div className="footer__links flex">
                             {socialLinks.map((link, index) => (
-                                <a href="#" key={index}>
+                                <Link href="#" key={index}>
                                     <Image
                                         src={link.src}
                                         alt={link.alt}
-                                        className="footer__social-icon"
+                                        className="footer__social-icon hover:scale-125 transition-all"
                                     />
-                                </a>
+                                </Link>
                             ))}
                         </div>
                     </div>

@@ -1830,6 +1830,8 @@ tr:hover {
   font-size: var(--small-font-size);
 }
 
+
+
 /*=============== BREAKPOINTS ===============*/
 /* For large devices */
 @media screen and (max-width: 1400px) {
@@ -2110,7 +2112,8 @@ tr:hover {
   }
 
   .compare__table tr td {
-    display: block;
+    /* display: block; */
+    min-width: 45vw;
   }
 
   .home__img {

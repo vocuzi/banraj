@@ -45,7 +45,7 @@ export default function CartPage() {
 
   return (
     <>
-      <Navbar page={"Shop"} />
+      <Navbar page={"Cart"} />
       <main className="main">
         <section className="breadcrumb">
           <ul className="breadcrumb__list flex container">
