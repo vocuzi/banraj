@@ -8,7 +8,7 @@ import AccountsSection from "./profileS";
 
 export default function ProfilePage() {
   useEffect(()=>{
-    document.title = "Profile | Renz Trending"
+    document.title = "Profile | Banraj"
   })
   return (
     <>

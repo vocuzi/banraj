@@ -18,7 +18,7 @@ import "./globals.css";
 export default function Home() {
 
   useEffect(() => {
-    document.title = "Renz Trending - Home";
+    document.title = "Banraj - Home | Pure & Authentic Heritage";
     AOS.init({duration:500});
   }, []);
 
@@ -29,7 +29,7 @@ export default function Home() {
         <section className="home section--lg">
           <div className="home__container container grid">
             <div className="home__content">
-              <span className="home__subtitle" data-aos="fade-right" data-aos-delay="50">Renz Trending</span>
+              <span className="home__subtitle" data-aos="fade-right" data-aos-delay="50">Banraj</span>
               <h1 className="home__title" data-aos="fade-right" data-aos-delay="150">
                 Fashion Products <span>Great Collection</span>
               </h1>

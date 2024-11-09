@@ -43,56 +43,58 @@ const Navbar = ({page}) => {
                 </div>
             </div>
 
-            <nav className="nav container ">
-                <Link href="/" className="nav__logo">
-                    <Image
-                    data-aos="fade-right"
-                        className="nav__logo-img"
-                        src={logo}
-                        alt="website logo"
-                    />
-                </Link>
-                <div className={`nav__menu ${isMenuOpen ? "show-menu" : ""}`} id="nav-menu">
-                    <div className="nav__menu-top">
-                        <Link href="/" className="nav__menu-logo">
-                            <Image src={logo} alt=""/>
-                        </Link>
-                        <div className="nav__close" onClick={toggleMenu}>
-                            <i className="fi fi-rs-cross-small"></i>
+            <nav className="nav-bg">
+                <div className="nav container">
+                    <Link href="/" className="nav__logo">
+                        <Image
+                        data-aos="fade-right"
+                            className="nav__logo-img"
+                            src={logo}
+                            alt="website logo"
+                        />
+                    </Link>
+                    <div className={`nav__menu ${isMenuOpen ? "show-menu" : ""}`} id="nav-menu">
+                        <div className="nav__menu-top">
+                            <Link href="/" className="nav__menu-logo">
+                                <Image src={logo} alt=""/>
+                            </Link>
+                            <div className="nav__close" onClick={toggleMenu}>
+                                <i className="fi fi-rs-cross-small"></i>
+                            </div>
+                        </div>
+                        <ul className="nav__list">
+                            {navItems.map((item, index) => (
+                                <li className="nav__item" key={index} data-aos="zoom-in" data-aos-delay={(index*50)}>
+                                    <Link href={item.href} className={`nav__link ${page===item.label ? "active-link" : ""}`} >
+                                        {item.label}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                        <div className="header__search" data-aos="zoom-in">
+                            <input
+                                type="text"
+                                placeholder="Search For Items..."
+                                className="form__input"
+                            />
+                            <button className="search__btn">
+                                <Image src={search} alt="search icon" />
+                            </button>
                         </div>
                     </div>
-                    <ul className="nav__list">
-                        {navItems.map((item, index) => (
-                            <li className="nav__item" key={index} data-aos="zoom-in" data-aos-delay={(index*50)}>
-                                <Link href={item.href} className={`nav__link ${page===item.label ? "active-link" : ""}`} >
-                                    {item.label}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                    <div className="header__search" data-aos="zoom-in">
-                        <input
-                            type="text"
-                            placeholder="Search For Items..."
-                            className="form__input"
-                        />
-                        <button className="search__btn">
-                            <Image src={search} alt="search icon" />
-                        </button>
-                    </div>
-                </div>
-                <div className="header__user-actions">
-                    <Link href="/shop/wishlist" className="header__action-btn" title="Wishlist" data-aos="zoom-in-down" data-aos-delay="50">
-                        <Image src={heart} alt="" />
-                        <span className="count">3</span>
-                    </Link>
-                    <Link href="/shop/cart" className="header__action-btn" title="Login" data-aos="zoom-in-down" data-aos-delay="100">
-                        <Image src={profile} alt="" />
-                        {/* <span className="count">2</span> */}
-                    </Link>
+                    <div className="header__user-actions">
+                        <Link href="/shop/wishlist" className="header__action-btn" title="Wishlist" data-aos="zoom-in-down" data-aos-delay="50">
+                            <Image src={heart} alt="" />
+                            <span className="count">3</span>
+                        </Link>
+                        <Link href="/shop/cart" className="header__action-btn" title="Login" data-aos="zoom-in-down" data-aos-delay="100">
+                            <Image src={profile} alt="" />
+                            {/* <span className="count">2</span> */}
+                        </Link>
 
-                    <div className="header__action-btn nav__toggle" id="nav-toggle" onClick={toggleMenu} data-aos="zoom-in-down" data-aos-delay="150">
-                        <Image src={burger} alt=""/>
+                        <div className="header__action-btn nav__toggle" id="nav-toggle" onClick={toggleMenu} data-aos="zoom-in-down" data-aos-delay="150">
+                            <Image src={burger} alt=""/>
+                        </div>
                     </div>
                 </div>
             </nav>
